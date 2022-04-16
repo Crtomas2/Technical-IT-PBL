@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\PromodiserController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
-
+use function GuzzleHttp\Promise\task;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //Route::post('/promodiserAdd', [App\Http\Controllers\promodiserController::class, 'Index'])->name('promodiserAdd');
 
 Route::resource('/promodisers', PromodiserController::class);
+
+Route::resource('tasks',TaskController::class);
