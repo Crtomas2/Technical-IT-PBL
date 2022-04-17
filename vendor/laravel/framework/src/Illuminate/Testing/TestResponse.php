@@ -36,7 +36,7 @@ class TestResponse implements ArrayAccess
      *
      * @var \Illuminate\Http\Response
      */
-    public $baseResponse;
+    //public $baseResponse;
 
     /**
      * The collection of logged exceptions for the request.

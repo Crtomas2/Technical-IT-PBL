@@ -17,6 +17,7 @@
                     </x-jet-nav-link>
                 </div>
             </div>
+         
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
