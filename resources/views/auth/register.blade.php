@@ -22,6 +22,12 @@
                 <x-jet-label for="Username" value="{{ __('Username') }}" />
                 <x-jet-input id="Username" class="block mt-1 w-full" type="text" name="username" :value="old('username')"  />
             </div>
+            <div class="mt-4">
+                <x-jet-label for="UserRole" value="{{ __('UserRole') }}" />
+                <x-jet-input id="UserRole" class="block mt-1 w-full" type="text" name="UserRole" :value="old('UserRole')"  />
+            </div>
+            
+
 
             <div class="mt-4">
                 <x-jet-label for="password" value="{{ __('Password') }}" />

@@ -21,6 +21,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'username' => ['required', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'UserRole' => ['required', 'string', 'max:255'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
@@ -35,6 +37,20 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+            ])->save();
+        }if($input['username'] !== $user->username && $user instanceof MustVerifyEmail){
+            $this->updateVerifiedUser($user,$input);
+        }else{
+            $user->forceFill([
+                'username' => $input['username'],
+            ])->save();
+        }
+
+        if ($input['UserRole'] !== $user->UserRole && $user instanceof MustVerifyEmail){
+            $this->updateVerifiedUser($user,$input);
+        }else{
+            $user->forceFill([
+                'UserRole' => $input['UserRole'],    
             ])->save();
         }
     }
@@ -51,6 +67,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],
+            'username' => $input['username'],
+            'UserRole' => $input['UserRole'],
             'email_verified_at' => null,
         ])->save();
 
