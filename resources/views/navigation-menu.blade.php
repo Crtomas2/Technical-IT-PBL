@@ -18,6 +18,10 @@
                 </div>
             </div>
          
+               
+
+
+         
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
@@ -142,9 +146,7 @@
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
         </div>
-
     
-
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -158,6 +160,7 @@
                 <div>
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->username }}</div>
                 </div>
             </div>
 
