@@ -33,6 +33,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::resource('/promodisers', PromodiserController::class);
 
-Route::resource('tasks', App\Http\TaskController::class)->middleware('auth');
+Route::resource('tasks', App\Http\TaskController::class);
 
 //Route::resource('user', UserController::class);
