@@ -61,7 +61,6 @@
               <input type="text" class="form-control" name="StoreGroup"/>
           </div>
           
-          
 <button type="submit" class="btn btn-block btn-danger">Create Promodiser</button>
       </form>
   </div>
