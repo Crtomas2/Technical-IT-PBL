@@ -21,6 +21,8 @@
           <td>Mobilenumber</td>
           <td>Storename</td>
           <td>Storelocation</td>
+          <td>LocationCode</td>
+          <td>StoreGroup</td>
           <td class="text-center">Action</td>
         </tr>
     </thead>
@@ -34,7 +36,10 @@
             <td>{{$promodisers->mobilenumber}}</td>
             <td>{{$promodisers->Storename}}</td>
             <td>{{$promodisers->Storelocation}}</td>
+            <td>{{$promodisers->LocationCode}}</td>
+            <td>{{$promodisers->StoreGroup}}</td>
             <td class="text-center">
+              <a href="{{ route('promodisers.create', $promodisers->id)}}" class="btn btn-primary btn-sm"">Add User</a>
                 <a href="{{ route('promodisers.edit', $promodisers->id)}}" class="btn btn-primary btn-sm"">Edit</a>
                 <form action="{{ route('promodisers.destroy', $promodisers->id)}}" method="post" style="display: inline-block">
                     @csrf

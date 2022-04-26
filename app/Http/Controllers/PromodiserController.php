@@ -43,6 +43,8 @@ class PromodiserController extends Controller
             'mobilenumber' => 'required|numeric',
             'Storename' => 'required|max:255',
             'Storelocation' => 'required|max:255',
+            'LocationCode' => 'required|max:255',
+            'StoreGroup' => 'required|max:255',
         ]);
         $promodiser = Promodiser::create($storeData);
         return redirect('/promodisers')->with('completed', 'Record has been saved!');
@@ -87,6 +89,8 @@ class PromodiserController extends Controller
             'mobilenumber' => 'required|numeric',
             'Storename' => 'required|max:255',
             'Storelocation' => 'required|max:255',
+            'LocationCode' => 'required|max:255',
+            'StoreGroup' => 'required|max:255',
         ]);
         $promodiser = Promodiser::create($updateData);
         return redirect('/promodisers')->with('completed', 'Record has been saved!');

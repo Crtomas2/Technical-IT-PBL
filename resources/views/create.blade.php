@@ -3,9 +3,13 @@
 <style>
     .container {
       max-width: 450px;
+      background-color: white;
+      margin-top: 0px;
+
     }
     .push-top {
-      margin-top: 50px;
+      margin-top: 15px;
+      
     }
 </style>
 <div class="card push-top">
@@ -23,9 +27,9 @@
       </div><br />
     @endif
       <form method="post" action="{{ route('promodisers.store') }}">
-          <div class="form-group">
+          <div class="form-group ">
               @csrf
-              <label for="Firstname">Firstname</label>
+              <label for="Firstname ">Firstname</label>
               <input type="text" class="form-control" name="Firstname"/>
           </div>
           <div class="form-group">
@@ -48,8 +52,19 @@
               <label for="Storelocation">Storelocation</label>
               <input type="text" class="form-control" name="Storelocation"/>
           </div>
-          <button type="submit" class="btn btn-block btn-danger">Create Promodiser</button>
+          <div class="form-group">
+              <label for="LocationCode">locationCode</label>
+              <input type="text" class="form-control" name="LocationCode"/>
+          </div>
+          <div class="form-group">
+              <label for="StoreGroup">StoreGroup</label>
+              <input type="text" class="form-control" name="StoreGroup"/>
+          </div>
+          
+          
+<button type="submit" class="btn btn-block btn-danger">Create Promodiser</button>
       </form>
   </div>
 </div>
 @endsection
+

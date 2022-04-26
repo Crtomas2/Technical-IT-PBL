@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Promodiser extends Model
 {
     use HasFactory;
-    protected $fillable = ['Firstname','Middlename','lastname','mobilenumber','Storename','Storelocation'];
+    protected $fillable = ['Firstname','Middlename','lastname','mobilenumber','Storename','Storelocation','LocationCode','StoreGroup'];
 }

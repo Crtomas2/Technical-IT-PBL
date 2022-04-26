@@ -44,10 +44,18 @@
           <div class="form-group">
               <label for="Storename">Storename</label>
               <input type="text" class="form-control" name="Storename" value="{{ $promodiser->Storename }}"/>
-          </div>
+          </div> 
           <div class="form-group">
               <label for="Storelocation">Storelocation</label>
               <input type="text" class="form-control" name="Storelocation" value="{{ $promodiser->Storelocation }}"/>
+          </div>
+          <div class="form-group">
+              <label for="LocationCode">LocationCode</label>
+              <input type="text" class="form-control" name="LocationCode" value="{{ $promodiser->LocationCode }}"/>
+          </div>
+          <div class="form-group">
+              <label for="StoreGroup">StoreGroup</label>
+              <input type="text" class="form-control" name="StoreGroup" value="{{ $promodiser->StoreGroup }}"/>
           </div>
           <button type="submit" class="btn btn-block btn-danger">Update User</button>
       </form>

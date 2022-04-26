@@ -21,10 +21,12 @@ return new class extends Migration
             $table->string('mobilenumber');
             $table->string('Storename');
             $table->string('Storelocation');
+            $table->string('LocationCode');
+            $table->string('StoreGroup');
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
