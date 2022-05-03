@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\PromodiserController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TaskController;
-use Illuminate\Support\Facades\App;
+
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App\Models\Store;
+use App\Http\Controllers\FileUpload;
+
 use Illuminate\Support\Facades\Route;
-
-
-use function GuzzleHttp\Promise\task;
+use App\Http\Controllers\PromodiserController;
+use App\Models\Storelocation;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,29 @@ Route::resource('/promodisers', PromodiserController::class);
 
 Route::resource('tasks', App\Http\TaskController::class);
 
-//Route::resource('user', UserController::class);
+Route::get('/upload-file', [FileUpload::class, 'createForm']);
+Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
+
+Route::get('/', function () {
+    $Store = App\Models\Store::all();
+    return view('dropdown',['Store' => $Store]);
+});
+
+Route::get('getStorelocation/{Storelocations}', function ($Storelocations) {
+    // return response()->json(App\Models\Storelocation::all());
+    $Storelocations = App\Models\Storelocation::where('id',$Storelocations)->get();
+    return response()->json(['locations' => $Storelocations]);
+});
+Route::get('getLocationCode/{LocationCode}', function ($LocationCode) {
+    // return response()->json(App\Models\LocationCode::all());
+    $LocationCode = App\Models\LocationCode::where('id',$LocationCode)->get();
+    return response()->json(['locationcode' => $LocationCode]);
+});
+Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
+    // return response()->json(App\Models\LocationCode::all());
+    $StoreGroup = App\Models\Storegroup::where('id',$StoreGroup)->get();
+    return response()->json(['Group' => $StoreGroup]);
+});
+
+
+

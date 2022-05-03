@@ -14,9 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-       $this->call([
-        DatabasePromodisers::class
+     
+        $this->call([
+          StoreLocationSeeder::class,
+          StoreNamesSeeder::class 
+        ]);
+        $this->call([
+          LocationCodeSeeder::class,
+        ]);
+        $this->call([
+          StoreGroupSeeder::class,
+        ]);
 
-       ]);
+
+       
     }
 }
