@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Storegroup extends Model
 {
-    use HasFactory;
+    protected $fillable = ['StoreGroup'];
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\FileUpload;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PromodiserController;
+use App\Http\Livewire\PromodisersComponent;
+use App\Models\Promodisers;
 use App\Models\Storelocation;
 use Illuminate\Http\Request;
 
@@ -32,18 +34,20 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 //Route::post('/promodiserAdd', [App\Http\Controllers\promodiserController::class, 'Index'])->name('promodiserAdd');
 
-Route::resource('/promodisers', PromodiserController::class);
 
-Route::resource('tasks', App\Http\TaskController::class);
+//Promodiser Form
+//Route::resource('/promodisers', PromodiserController::class);
+
+//Route::resource('tasks', App\Http\TaskController::class);
 
 Route::get('/upload-file', [FileUpload::class, 'createForm']);
 Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
 
+//Drop-down Option
 Route::get('/', function () {
     $Store = App\Models\Store::all();
     return view('dropdown',['Store' => $Store]);
 });
-
 Route::get('getStorelocation/{Storelocations}', function ($Storelocations) {
     // return response()->json(App\Models\Storelocation::all());
     $Storelocations = App\Models\Storelocation::where('id',$Storelocations)->get();
@@ -59,6 +63,10 @@ Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
     $StoreGroup = App\Models\Storegroup::where('id',$StoreGroup)->get();
     return response()->json(['Group' => $StoreGroup]);
 });
+//ending//
 
+
+//Version 2 promodiserform
+Route::get('promodisers', PromodisersComponent::class);
 
 

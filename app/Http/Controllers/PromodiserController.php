@@ -71,6 +71,8 @@ class PromodiserController extends Controller
     {
         $promodiser = Promodiser::findOrFail($id);
         return view('edit', compact('promodiser'));
+
+        
     }
 
     /**

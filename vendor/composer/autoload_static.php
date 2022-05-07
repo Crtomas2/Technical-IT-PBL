@@ -782,6 +782,7 @@ class ComposerStaticInit69cb732a8c3b931c3d3b14b59d51a483
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\LocationCodeSeeder' => __DIR__ . '/../..' . '/database/seeders/LocationCodeSeeder.php',
+        'Database\\Seeders\\StoreGroupSeeder' => __DIR__ . '/../..' . '/database/seeders/StoreGroupSeeder.php',
         'Database\\Seeders\\StoreLocationSeeder' => __DIR__ . '/../..' . '/database/seeders/StoreLocationSeeder.php',
         'Database\\Seeders\\StoreNamesSeeder' => __DIR__ . '/../..' . '/database/seeders/StoreNamesSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

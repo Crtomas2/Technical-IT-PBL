@@ -8,5 +8,5 @@ use Illuminate\Support\Facades\DB;
 
 class Storelocation extends Model
 {
-    
+    protected $fillable = ['Storelocations'];
 }

@@ -12,7 +12,7 @@
         <div class="container my-5">
             <h1 class="fs-5 fw-bold my-4 text-center">Manage Stores Edge Scanner</h1>
             <div class="row">
-                <form action="" method="POST">
+                <form action="" method="">
                     <div class="mb-3">
                         <label for="storename" class="form-label">StoreName</label>
                         <select class="form-control" name="" id="storename">

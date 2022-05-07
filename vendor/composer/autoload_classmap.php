@@ -223,6 +223,7 @@ return array(
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\LocationCodeSeeder' => $baseDir . '/database/seeders/LocationCodeSeeder.php',
+    'Database\\Seeders\\StoreGroupSeeder' => $baseDir . '/database/seeders/StoreGroupSeeder.php',
     'Database\\Seeders\\StoreLocationSeeder' => $baseDir . '/database/seeders/StoreLocationSeeder.php',
     'Database\\Seeders\\StoreNamesSeeder' => $baseDir . '/database/seeders/StoreNamesSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

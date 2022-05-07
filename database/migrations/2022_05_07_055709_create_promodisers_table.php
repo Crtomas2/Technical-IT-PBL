@@ -14,19 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('promodisers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
+            $table->string('promodiser_id')->unique()->nullable();
             $table->string('Firstname');
-            $table->string('Middlename');
-            $table->string('lastname');
-            $table->string('mobilenumber');
-            $table->string('Storename');
-            $table->string('Storelocation');
-            $table->string('LocationCode');
-            $table->string('StoreGroup');
+            $table->string('Lastname');
+            $table->string('Mobilenumber');
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *
