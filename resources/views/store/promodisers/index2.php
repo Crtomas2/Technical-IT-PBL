@@ -1,3 +1,6 @@
+@extends('layouts.layout')
+
+@section('content')
 <div>
     <div class="container mt-5">
         <div class="row mb-5">
@@ -24,45 +27,12 @@
                             </div>
                         </div>
 
-
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Firstname</th>
-                                    <th>Lastname</th>
-                                    <th>Mobilenumber</th>
-                                    <th style="text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if ($promodisers->count() > 0)
-                                    @foreach ($promodisers as $promodiser)
-                                        <tr>
-                                            <td>{{ $promodiser->promodiser_id }}</td>
-                                            <td>{{ $promodiser->Firstname }}</td>
-                                            <td>{{ $promodiser->Lastname }}</td>
-                                            <td>{{ $promodiser->Mobilenumber }}</td>
-                                            <td style="text-align: center;">
-                                                <button class="btn btn-sm btn-secondary" wire:click="viewPromodiserDetails({{ $promodiser->id }})">View</button>
-                                                <button class="btn btn-sm btn-primary" wire:click="editPromodisers({{ $promodiser->id }})">Edit</button>
-                                                <button class="btn btn-sm btn-danger" wire:click="deleteConfirmation({{ $promodiser->id }})">Delete</button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="4" style="text-align: center;"><small>No Promodiser Found</small></td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                        @livewire('promodisers-table', ['store' => $store])
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- Modal -->
     <div wire:ignore.self class="modal fade" id="addPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -134,8 +104,45 @@
         </div>
     </div>
 
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	Open Form
+</button>
 
-    <div wire:ignore.self class="modal fade" id="editPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<!-- Modal -->
+<div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true close-btn">×</span>
+                </button>
+            </div>
+           <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Name</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" wire:model="name">
+                        @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput2">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput2" wire:model="email" placeholder="Enter Email">
+                        @error('email') <span class="text-danger error">{{ $message }}</span>@enderror
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                <button type="button" wire:click.prevent="store()" class="btn btn-primary close-modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    {{--
+    <div wire:ignore.self class="modal fade" id="editPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true"> -->
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -195,17 +202,17 @@
                         <div class="form-group row">
                             <label for="" class="col-3"></label>
                             <div class="col-9">
-                                <button type="submit" class="btn btn-sm btn-primary">Edit Promodisers</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Save</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <div wire:ignore.self class="modal fade" id="deletePromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <!-- <div wire:ignore.self class="modal fade" id="deletePromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -223,10 +230,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <div wire:ignore.self class="modal fade" id="viewPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <!-- <div wire:ignore.self class="modal fade" id="viewPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -265,23 +272,33 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div> -->
+</div> --}}
 
 
 @push('scripts')
     <script>
+        $(document).on('ready', function () {
+            $('#addPromodiserModal').modal('show');
+        })
+
         window.addEventListener('close-modal', event =>{
             $('#addPromodiserModal').modal('hide');
             $('#editPromodiserModal').modal('hide');
             $('#deletePromodiserModal').modal('hide');
         });
+
+
         window.addEventListener('show-edit-promodiser-modal', event =>{
             $('#editPromodiserModal').modal('show');
         });
+
+
         window.addEventListener('show-delete-confirmation-modal', event =>{
             $('#deletePromodiserModal').modal('show');
         });
+
+
         window.addEventListener('show-view-promodiser-modal', event =>{
             $('#viewPromodiserModal').modal('show');
         });

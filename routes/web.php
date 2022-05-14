@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\App\Models\Store;
 use App\Http\Controllers\FileUpload;
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PromodiserController;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\Store\PromodisersController;
 use App\Http\Livewire\PromodisersComponent;
+use App\Http\Livewire\StoreComponent;
+use App\Http\Livewire\StoresComponent;
 use App\Models\Promodisers;
 use App\Models\Storelocation;
 use Illuminate\Http\Request;
@@ -43,11 +46,26 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/upload-file', [FileUpload::class, 'createForm']);
 Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
 
+
+//Version 2 promodiserform
+Route::get('promodisers', PromodisersComponent::class);
+
+
 //Drop-down Option
-Route::get('/', function () {
-    $Store = App\Models\Store::all();
-    return view('dropdown',['Store' => $Store]);
+// Route::get('/', function () {
+//     $Store = App\Models\Store::all();
+//     return view('dropdown',['Store' => $Store]);
+// });
+
+Route::view('/', 'store.index')->name('store.index');
+
+Route::group(['prefix' => 'stores'], function () {
+    Route::get('{store}/edit', [StoreController::class, 'edit'])->name('store.edit');
+    Route::get('{store}', [PromodisersController::class])->name('');
 });
+
+// localhost:8000/store/1/promodisers
+
 Route::get('getStorelocation/{Storelocations}', function ($Storelocations) {
     // return response()->json(App\Models\Storelocation::all());
     $Storelocations = App\Models\Storelocation::where('id',$Storelocations)->get();
@@ -66,7 +84,5 @@ Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
 //ending//
 
 
-//Version 2 promodiserform
-Route::get('promodisers', PromodisersComponent::class);
-
-
+Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
+Route::get('stores', StoresComponent::class)->name('stores');

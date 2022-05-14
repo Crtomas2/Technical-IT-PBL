@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Promodiser;
+use App\Models\Promodisers;
 use Illuminate\Http\Request;
 
 class PromodiserController extends Controller
@@ -14,7 +14,7 @@ class PromodiserController extends Controller
      */
     public function index()
     {
-        $promodiser = Promodiser::all();
+        $promodiser = Promodisers::all();
         return view('index',compact('promodiser'));
     }
 
@@ -46,7 +46,7 @@ class PromodiserController extends Controller
             'LocationCode' => 'required|max:255',
             'StoreGroup' => 'required|max:255',
         ]);
-        $promodiser = Promodiser::create($storeData);
+        $promodiser = Promodisers::create($storeData);
         return redirect('/promodisers')->with('completed', 'Record has been saved!');
     }
 
@@ -69,7 +69,7 @@ class PromodiserController extends Controller
      */
     public function edit($id)
     {
-        $promodiser = Promodiser::findOrFail($id);
+        $promodiser = Promodisers::findOrFail($id);
         return view('edit', compact('promodiser'));
 
         
@@ -94,7 +94,7 @@ class PromodiserController extends Controller
             'LocationCode' => 'required|max:255',
             'StoreGroup' => 'required|max:255',
         ]);
-        $promodiser = Promodiser::create($updateData);
+        $promodiser = Promodisers::create($updateData);
         return redirect('/promodisers')->with('completed', 'Record has been saved!');
     }
 
@@ -106,7 +106,7 @@ class PromodiserController extends Controller
      */
     public function destroy($id)
     {
-        $promodiser = Promodiser::findOrFail($id);
+        $promodiser = Promodisers::findOrFail($id);
         $promodiser->delete();
         return redirect('/promodisers')->with('completed', 'Record has been deleted');
     }

@@ -10,4 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 class Store extends Model
 {
   protected $fillable = ['Storename'];
+
+  public function promodisers()
+  {
+    return $this->hasMany(Promodisers::class);
+  }
 }
