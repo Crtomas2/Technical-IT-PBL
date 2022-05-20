@@ -9,11 +9,16 @@ class StoreController extends Controller
 {
     public function index () 
     {
-        return view('dropdown');
+        $stores = StoreItem::get();
+
+        // dd($stores);
+
+        return view('store.index', compact('stores'));
     }
 
     public function edit (StoreItem $store)
     {
         return view('store.edit', compact('store'));
     }
+    
 }

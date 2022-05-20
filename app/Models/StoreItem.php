@@ -17,23 +17,30 @@ class StoreItem extends Model
         'storegroup_id',
     ];
 
+    protected $with = [
+        'storeName',
+        'storeLocation',
+        'locationCode',
+        'storeGroup'
+    ];
+
     public function storeName()
     {
-        $this->belongsTo(Store::class);
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function storeLocation()
     {
-        $this->belongsTo(Storelocation::class);
+        return $this->belongsTo(Storelocation::class, 'storelocation_id');
     }
 
     public function locationCode()
     {
-        $this->belongsTo(LocationCode::class);
+        return $this->belongsTo(LocationCode::class, 'locationcode_id');
     }
 
     public function storeGroup()
     {
-        $this->belongsTo(Storegroup::class);
+        return $this->belongsTo(Storegroup::class, 'storegroup_id');
     }
 }

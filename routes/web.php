@@ -10,6 +10,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\Store\PromodisersController;
 use App\Http\Livewire\PromodisersComponent;
 use App\Http\Livewire\StoreComponent;
+use App\Http\Livewire\StoreDropdown;
 use App\Http\Livewire\StoresComponent;
 use App\Models\Promodisers;
 use App\Models\Storelocation;
@@ -57,11 +58,12 @@ Route::get('promodisers', PromodisersComponent::class);
 //     return view('dropdown',['Store' => $Store]);
 // });
 
-Route::view('/', 'store.index')->name('store.index');
-
 Route::group(['prefix' => 'stores'], function () {
+    Route::get('/', [StoreController::class, 'index'])->name('store.index');
+    Route::view('create', 'store.create')->name('store.create');
     Route::get('{store}/edit', [StoreController::class, 'edit'])->name('store.edit');
     Route::get('{store}', [PromodisersController::class])->name('');
+    Route::get('{store}/view', [StoreController::class,'view'])->name('store.view');
 });
 
 // localhost:8000/store/1/promodisers
@@ -85,4 +87,4 @@ Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
 
 
 Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
-Route::get('stores', StoresComponent::class)->name('stores');
+

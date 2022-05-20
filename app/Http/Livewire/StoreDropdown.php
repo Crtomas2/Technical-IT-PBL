@@ -66,7 +66,7 @@ class StoreDropdown extends Component
 
             DB::commit();
 
-            Redirect::to(route('store.edit', ['store' => $storeItem]));
+            Redirect::to(route('store.index'));
         } catch (\Exception $e) {
             DB::rollback();
 

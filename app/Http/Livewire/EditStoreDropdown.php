@@ -68,6 +68,9 @@ class EditStoreDropdown extends Component
             DB::commit();
 
             session()->flash('message', 'Store Item was updated successfully');
+
+            $this->dispatchBrowserEvent('close-modal');
+            $this->emit('updatedStore');
         } catch (\Exception $e) {
             DB::rollback();
 

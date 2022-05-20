@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Http\Livewire;
-
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class StoresComponent extends Component
-{
+{   
+    public function updated($fields)
+    {
+
+    }
     public function render()
     {
         return view('livewire.stores-component');
