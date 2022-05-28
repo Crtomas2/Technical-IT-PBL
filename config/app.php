@@ -195,5 +195,6 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // ...
     ])->toArray(),
+    'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 
 ];

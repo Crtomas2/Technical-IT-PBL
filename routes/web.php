@@ -1,20 +1,21 @@
 <?php
 
 
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\App\Models\Store;
-use App\Http\Controllers\FileUpload;
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\Store\PromodisersController;
-use App\Http\Livewire\PromodisersComponent;
-use App\Http\Livewire\StoreComponent;
-use App\Http\Livewire\StoreDropdown;
-use App\Http\Livewire\StoresComponent;
 use App\Models\Promodisers;
-use App\Models\Storelocation;
 use Illuminate\Http\Request;
+use App\Models\Storelocation;
+
+use Illuminate\Routing\Controller;
+use App\Http\Controllers\FileUpload;
+use App\Http\Livewire\StoreDropdown;
+use App\Http\Livewire\StoreComponent;
+use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\StoresComponent;
+use App\Http\Controllers\StoreController;
+use App\Http\Livewire\PromodisersComponent;
+use App\Http\Controllers\FileUploadController;
+use Illuminate\Support\Facades\App\Models\Store;
+use App\Http\Controllers\Store\PromodisersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,3 +89,7 @@ Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
 
 Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
 
+Route::view('test-upload', 'file.test-upload')->name('test-upload');
+Route::post('test-upload', [FileUploadController::class, 'upload'])->name('test-upload.upload');
+Route::get('test-upload/store', [FileUploadController::class, 'view']);
+Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('test-upload.store');
