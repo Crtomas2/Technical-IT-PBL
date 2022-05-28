@@ -14,4 +14,7 @@ class StoresComponent extends Component
     {
         return view('livewire.stores-component');
     }
+
+
+    
 }
