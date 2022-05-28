@@ -593,10 +593,7 @@ class ComposerStaticInit69cb732a8c3b931c3d3b14b59d51a483
         'App\\Http\\Controllers\\Store\\PromodisersController' => __DIR__ . '/../..' . '/app/Http/Controllers/Store/PromodisersController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Livewire\\EditStoreDropdown' => __DIR__ . '/../..' . '/app/Http/Livewire/EditStoreDropdown.php',
-<<<<<<< HEAD
         'App\\Http\\Livewire\\FileUploadComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/FileUploadComponent.php',
-=======
->>>>>>> f07a35a309d4410120a1cfa987edf6f505df0935
         'App\\Http\\Livewire\\Layouts\\Base' => __DIR__ . '/../..' . '/app/Http/Livewire/Layouts/Base.php',
         'App\\Http\\Livewire\\PromodisersComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/PromodisersComponent.php',
         'App\\Http\\Livewire\\StoreDropdown' => __DIR__ . '/../..' . '/app/Http/Livewire/StoreDropdown.php',
