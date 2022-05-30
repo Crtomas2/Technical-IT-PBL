@@ -31,7 +31,8 @@
                                     <th>ID</th>
                                     <th>Firstname</th>
                                     <th>Lastname</th>
-                                    <th>Mobilenumber</th>
+                                    <th>Mobile Number</th>
+                                    <th>Location Code</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
@@ -43,6 +44,8 @@
                                             <td>{{ $promodiser->Firstname }}</td>
                                             <td>{{ $promodiser->Lastname }}</td>
                                             <td>{{ $promodiser->Mobilenumber }}</td>
+                                            <td>{{ $promodiser->Location_code }}</td>
+
                                             <td style="text-align: center;">
                                                 <button class="btn btn-sm btn-secondary" wire:click="viewPromodiserDetails({{ $promodiser->id }})">View</button>
                                                 <button class="btn btn-sm btn-primary" wire:click="editPromodisers({{ $promodiser->id }})">Edit</button>
@@ -121,6 +124,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="Location_code" class="col-3">Location Code</label>
+                            <div class="col-9">
+                                <input type="number" id="Location_code" class="form-control" wire:model="Location_code">
+                                @error('Location_code')
+                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
                             <label for="" class="col-3"></label>
@@ -186,6 +199,15 @@
                             <div class="col-9">
                                 <input type="number" id="Mobilenumber" class="form-control" wire:model="Mobilenumber">
                                 @error('Mobilenumber')
+                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Location_code" class="col-3">Location Code</label>
+                            <div class="col-9">
+                                <input type="number" id="Location_code" class="form-control" wire:model="Location_code">
+                                @error('Location_code')
                                     <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -260,6 +282,10 @@
                                 <th>Phone: </th>
                                 <td>{{ $view_promodiser_Mobilenumber }}</td>
                             </tr>
+                            <tr>
+                                <th>Location Code: </th>
+                                <td>{{ $view_promodiser_Location_code }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -287,3 +313,5 @@
         });
     </script>
 @endpush
+
+
