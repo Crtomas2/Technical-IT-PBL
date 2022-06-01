@@ -95,4 +95,3 @@ Route::get('test-upload/store', [FileUploadController::class, 'view']);
 Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('test-upload.store');
 
 
-//Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('test-upload.store');
