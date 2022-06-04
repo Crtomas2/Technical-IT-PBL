@@ -1,1 +1,1 @@
-web: vendor/bin/heruko-php-apache2 public/
+web: ./bin/www npm start
