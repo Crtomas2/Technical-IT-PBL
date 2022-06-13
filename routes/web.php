@@ -86,8 +86,14 @@ Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
 });
 //ending//
 
-
+Route::group(['layout' => 'layouts.base', 'section' => 'body'], function () {
+    //
 Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
+});
+
+
+
+//Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
 
 Route::view('test-upload', 'file.test-upload')->name('test-upload');
 Route::post('test-upload', [FileUploadController::class, 'upload'])->name('test-upload.upload');
