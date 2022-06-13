@@ -36,6 +36,7 @@
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
                     Submit
+                    @csrf
                 </button>
             </div>
         </form>
