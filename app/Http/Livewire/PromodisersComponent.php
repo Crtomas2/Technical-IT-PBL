@@ -169,7 +169,7 @@ class PromodisersComponent extends Component
        $promodisers = Promodisers::where('Firstname','like', '%'.$this->searchTerm.'%')->orwhere('Lastname', 'like','%' .$this->searchTerm.'%')
        ->orwhere('Mobilenumber','like', '%' .$this->searchTerm.'%')->orwhere('promodiser_id','like', '%'.$this->searchTerm.'%')->orwhere('Location_code','like', '%' .$this->searchTerm.'%')->get(); 
 
-        return view('livewire.promodisers-component', ['promodisers'=>$promodisers])->layout('Livewire.layouts.base');
+        return view('livewire.promodisers-component', ['promodisers'=>$promodisers])->layout('livewire.layouts.base');
     }
 }
 
