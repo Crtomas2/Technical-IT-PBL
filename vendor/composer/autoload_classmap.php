@@ -23,10 +23,7 @@ return array(
     'App\\Http\\Controllers\\Store\\PromodisersController' => $baseDir . '/app/Http/Controllers/Store/PromodisersController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Livewire\\EditStoreDropdown' => $baseDir . '/app/Http/Livewire/EditStoreDropdown.php',
-<<<<<<< HEAD
     'App\\Http\\Livewire\\FileUploadComponent' => $baseDir . '/app/Http/Livewire/FileUploadComponent.php',
-=======
->>>>>>> f07a35a309d4410120a1cfa987edf6f505df0935
     'App\\Http\\Livewire\\Layouts\\Base' => $baseDir . '/app/Http/Livewire/Layouts/Base.php',
     'App\\Http\\Livewire\\PromodisersComponent' => $baseDir . '/app/Http/Livewire/PromodisersComponent.php',
     'App\\Http\\Livewire\\StoreDropdown' => $baseDir . '/app/Http/Livewire/StoreDropdown.php',
@@ -51,6 +48,7 @@ return array(
     'App\\Models\\LocationCode' => $baseDir . '/app/Models/LocationCode.php',
     'App\\Models\\NewTable' => $baseDir . '/app/Models/NewTable.php',
     'App\\Models\\Promodisers' => $baseDir . '/app/Models/Promodisers.php',
+    'App\\Models\\SMSApi' => $baseDir . '/app/Models/SMSApi.php',
     'App\\Models\\Store' => $baseDir . '/app/Models/Store.php',
     'App\\Models\\StoreItem' => $baseDir . '/app/Models/StoreItem.php',
     'App\\Models\\Storegroup' => $baseDir . '/app/Models/Storegroup.php',

@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
           StoreGroupSeeder::class,
         ]);
+        $this->call([
+          SmSSeeder::class,
+        ]);
 
 
        

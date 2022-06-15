@@ -618,6 +618,7 @@ class ComposerStaticInit69cb732a8c3b931c3d3b14b59d51a483
         'App\\Models\\LocationCode' => __DIR__ . '/../..' . '/app/Models/LocationCode.php',
         'App\\Models\\NewTable' => __DIR__ . '/../..' . '/app/Models/NewTable.php',
         'App\\Models\\Promodisers' => __DIR__ . '/../..' . '/app/Models/Promodisers.php',
+        'App\\Models\\SMSApi' => __DIR__ . '/../..' . '/app/Models/SMSApi.php',
         'App\\Models\\Store' => __DIR__ . '/../..' . '/app/Models/Store.php',
         'App\\Models\\StoreItem' => __DIR__ . '/../..' . '/app/Models/StoreItem.php',
         'App\\Models\\Storegroup' => __DIR__ . '/../..' . '/app/Models/Storegroup.php',
