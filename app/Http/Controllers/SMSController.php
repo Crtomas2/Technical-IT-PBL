@@ -12,14 +12,18 @@ class SMSController extends Controller
 
     public function index()
     {
-        return SMSApi::all();
+        $smsApi = SMSAPI::all();
+
+        return view('ESSAPI', compact('smsApi'));
+       
         //return response()->json(SMSApi::all(),200);
     }
     public function show(SMSApi $smsapi)
     {
         //return SMSApi::find();
-
         return $smsapi;
+
+        $smsapi= SMSApi::all();
     }
     public function store(Request $request)
     {

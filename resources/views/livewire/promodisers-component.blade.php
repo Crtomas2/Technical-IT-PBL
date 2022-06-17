@@ -24,42 +24,48 @@
                             </div>
                         </div>
 
-
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Firstname</th>
-                                    <th>Lastname</th>
-                                    <th>Mobile Number</th>
-                                    <th>Location Code</th>
-                                    <th style="text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if ($promodisers->count() > 0)
-                                    @foreach ($promodisers as $promodiser)
-                                        <tr>
-                                            <td>{{ $promodiser->promodiser_id }}</td>
-                                            <td>{{ $promodiser->Firstname }}</td>
-                                            <td>{{ $promodiser->Lastname }}</td>
-                                            <td>{{ $promodiser->Mobilenumber }}</td>
-                                            <td>{{ $promodiser->Location_code }}</td>
-
-                                            <td style="text-align: center;">
-                                                <button class="btn btn-sm btn-secondary" wire:click="viewPromodiserDetails({{ $promodiser->id }})">View</button>
-                                                <button class="btn btn-sm btn-primary" wire:click="editPromodisers({{ $promodiser->id }})">Edit</button>
-                                                <button class="btn btn-sm btn-danger" wire:click="deleteConfirmation({{ $promodiser->id }})">Delete</button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
+                        <div class="w-full max-w-full overflow-scroll">
+                            <table class="table table-bordered max-w-full">
+                                <thead>
                                     <tr>
-                                        <td colspan="4" style="text-align: center;"><small>No Promodiser Found</small></td>
+                                        <th>ID</th>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Mobile Number</th>
+                                        <th>Location Code</th>
+                                        <th style="text-align: center;">Action</th>
                                     </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @if ($promodisers->count() > 0)
+                                        @foreach ($promodisers as $promodiser)
+                                            <tr>
+                                                <td>{{ $promodiser->promodiser_id }}</td>
+                                                <td>{{ $promodiser->Firstname }}</td>
+                                                <td>{{ $promodiser->Lastname }}</td>
+                                                <td>{{ $promodiser->Mobilenumber }}</td>
+                                                <td>{{ $promodiser->latest_assignment ? $promodiser->latest_assignment->location->LocationCode : 'none' }}</td>
+
+                                                <td style="text-align: center;">
+                                                    <button class="btn btn-sm btn-primary" wire:click="viewPromodiserDetails({{ $promodiser->id }})">View</button>
+                                                    <button class="btn btn-sm btn-secondary" wire:click="editPromodisers({{ $promodiser->id }})">Edit</button>
+                                                    <button class="btn btn-sm btn-secondary" wire:click="showAssignPromodiser({{ $promodiser->id }})">Assign</button>
+                                                    <button class="btn btn-sm btn-danger" wire:click="deleteConfirmation({{ $promodiser->id }})">Delete</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="4" style="text-align: center;"><small>No Promodiser Found</small></td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="w-full">
+                            {{  $promodisers->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,15 +130,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="Location_code" class="col-3">Location Code</label>
-                            <div class="col-9">
-                                <input type="number" id="Location_code" class="form-control" wire:model="Location_code">
-                                @error('Location_code')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                
 
 
                         <div class="form-group row">
@@ -203,21 +201,11 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="Location_code" class="col-3">Location Code</label>
-                            <div class="col-9">
-                                <input type="number" id="Location_code" class="form-control" wire:model="Location_code">
-                                @error('Location_code')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
 
                         <div class="form-group row">
                             <label for="" class="col-3"></label>
                             <div class="col-9">
-                                <button type="submit" class="btn btn-sm btn-primary">Edit Promodisers</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Edit Promodiser</button>
                             </div>
                         </div>
                     </form>
@@ -258,36 +246,73 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    @if($selectedPromodiser)
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
                                 <th>ID: </th>
-                                <td>{{ $view_promodiser_id }}</td>
+                                <td>{{ $selectedPromodiser->promodiser_id }}</td>
                             </tr>
-
-
                             <tr>
                                 <th>Name: </th>
-                                <td>{{ $view_promodiser_Firstname }}</td>
-                            </tr>
-
-
-                            <tr>
-                                <th>Email: </th>
-                                <td>{{ $view_promodiser_Lastname }}</td>
-                            </tr>
-
-
-                            <tr>
-                                <th>Phone: </th>
-                                <td>{{ $view_promodiser_Mobilenumber }}</td>
+                                <td>{{ $selectedPromodiser->Firstname . ' ' . $selectedPromodiser->Lastname }}</td>
                             </tr>
                             <tr>
-                                <th>Location Code: </th>
-                                <td>{{ $view_promodiser_Location_code }}</td>
+                                <th>Mobile number: </th>
+                                <td>{{ $selectedPromodiser->Mobilenumber }}</td>
+                            </tr>
+                            <tr>
+                                <th>Current Location: </th>
+                                <td>{{ $selectedPromodiser->latest_assignment ? $selectedPromodiser->latest_assignment->location->LocationCode : 'none' }}</td>
                             </tr>
                         </tbody>
                     </table>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="assignPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="assignPromodiserTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="assignPromodiserTitle">Assign Promodiser</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeViewPromodiserModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if($selectedPromodiser)
+                    <form wire:submit.prevent="assignPromodiser({{ $selectedPromodiser->id }})">
+                        <div class="form-group row">
+                            <label for="current_location" class="col-3">Current Location</label>
+                            <div class="col-9">
+                                <span>{{ $selectedPromodiser->latest_assignment ? $selectedPromodiser->latest_assignment->location->LocationCode : '' }}</span>
+                                @error('current_location')
+                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Location_code" class="col-3">Location Code</label>
+                            <div class="col-9">
+                                <input id="assigned_location" class="form-control" wire:model.defer="assigned_location">
+                                @error('assigned_location')
+                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-9"></label>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-sm btn-primary">Assign</button>
+                            </div>
+                        </div>
+                    </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -301,6 +326,7 @@
             $('#addPromodiserModal').modal('hide');
             $('#editPromodiserModal').modal('hide');
             $('#deletePromodiserModal').modal('hide');
+            $('#assignPromodiserModal').modal('hide');
         });
         window.addEventListener('show-edit-promodiser-modal', event =>{
             $('#editPromodiserModal').modal('show');
@@ -310,6 +336,12 @@
         });
         window.addEventListener('show-view-promodiser-modal', event =>{
             $('#viewPromodiserModal').modal('show');
+        });
+        window.addEventListener('assign-promodiser-modal', event =>{
+            $('#assignPromodiserModal').modal('show');
+        });
+        window.addEventListener('hide-assign-promodiser-modal', event =>{
+            $('#assignPromodiserModal').modal('hide');
         });
     </script>
 @endpush

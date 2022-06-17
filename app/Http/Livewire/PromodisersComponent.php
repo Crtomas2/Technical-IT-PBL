@@ -2,15 +2,26 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Promodisers;
-use Livewire\Component;
 use Livewire\Livewire;
+use Livewire\Component;
+use Livewire\WithPagination;
+use App\Models\Promodisers;
+use App\Models\LocationCode;
+use App\Models\PromodiserAssignation;
+use Illuminate\Support\Facades\DB;
 
 class PromodisersComponent extends Component
 {
-   public $promodiser_id, $Firstname, $Lastname, $Mobilenumber,$Location_code, $promodiser_edit_id, $promodiser_delete_id;
-   public $view_promodiser_id, $view_promodiser_Firstname, $view_promodiser_Lastname, $view_promodiser_Mobilenumber, $view_promodiser_Location_code;
-   public $searchTerm; 
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $promodiser_id, $Firstname, $Lastname, $Mobilenumber,$Location_code, $promodiser_edit_id, $promodiser_delete_id;
+    public $view_promodiser_id, $view_promodiser_Firstname, $view_promodiser_Lastname, $view_promodiser_Mobilenumber, $view_promodiser_Location_code;
+    public $searchTerm; 
+    
+    public $selectedPromodiser;
+    public $assigned_location; // Used for assigning promodiser's location
 
     //Input fields on update validation
     public function updated($fields)
@@ -20,7 +31,7 @@ class PromodisersComponent extends Component
             'Firstname'=> 'required|max:255',
             'Lastname'=> 'required|max:255',
             'Mobilenumber'=> 'required|numeric',
-            'Location_code' => 'required|numeric',
+            // 'Location_code' => 'required|numeric',
         ]);
     }
 
@@ -32,7 +43,6 @@ class PromodisersComponent extends Component
         'Firstname'=> 'required|max:255',
         'Lastname'=> 'required|max:255',
         'Mobilenumber'=> 'required|numeric',
-        'Location_code' => 'required|numeric',
        ]); 
     
 
@@ -42,7 +52,7 @@ class PromodisersComponent extends Component
     $promodiser->Firstname = $this->Firstname;
     $promodiser->Lastname = $this->Lastname;
     $promodiser->Mobilenumber = $this->Mobilenumber;
-    $promodiser->Location_code = $this->Location_code;
+    
      
     $promodiser->save();
      
@@ -52,7 +62,6 @@ class PromodisersComponent extends Component
     $this->Firstname ='';
     $this->Lastname ='';
     $this->Mobilenumber ='';
-    $this->Location_code = '';
     $this->promodiser_edit_id ='';
      
     //For hide moadal after add promodiser successs
@@ -65,7 +74,6 @@ class PromodisersComponent extends Component
         $this->Firstname ='';
         $this->Lastname ='';
         $this->Mobilenumber ='';
-        $this->Location_code = '';
         $this->promodiser_edit_id ='';
     }
 
@@ -83,7 +91,7 @@ class PromodisersComponent extends Component
         $this->Firstname = $promodiser->Firstname;
         $this->Lastname = $promodiser->Lastname;
         $this->Mobilenumber = $promodiser->Mobilenumber;
-        $this->Location_code = $promodiser->Location_code;
+       
 
         $this->dispatchBrowserEvent('show-edit-promodiser-modal');
     }    
@@ -96,7 +104,6 @@ class PromodisersComponent extends Component
          'Firstname'=> 'required|max:255',
          'Lastname'=> 'required|max:255',
          'Mobilenumber'=> 'required|numeric',   
-         'Location_code' => 'required|numeric',
         ]);
 
        $promodiser = Promodisers::where('id',$this->promodiser_edit_id)->first(); 
@@ -104,7 +111,6 @@ class PromodisersComponent extends Component
        $promodiser->Firstname =$this->Firstname;
        $promodiser->Lastname =$this->Lastname;
        $promodiser->Mobilenumber =$this->Mobilenumber;
-       $promodiser->Location_code = $this->Location_code;
 
        $promodiser->save();
 
@@ -142,13 +148,10 @@ class PromodisersComponent extends Component
 
     public function viewPromodiserDetails($id)
     {
-        $promodiser = Promodisers::where('id', $id)->first();
+        $promodiser = Promodisers::with('latest_assignment.location')
+            ->find($id);
 
-        $this->view_promodiser_id = $promodiser->promodiser_id;
-        $this->view_promodiser_Firstname = $promodiser->Firstname;
-        $this->view_promodiser_Lastname = $promodiser->Lastname;
-        $this->view_promodiser_Mobilenumber = $promodiser->Mobilenumber;
-        $this->view_promodiser_Location_code = $promodiser->Location_code;
+        $this->selectedPromodiser = $promodiser;
 
         $this->dispatchBrowserEvent('show-view-promodiser-modal');
     }
@@ -159,17 +162,66 @@ class PromodisersComponent extends Component
       $this->view_promodiser_Firstname = '';
       $this->view_promodiser_Lastname = '';
       $this->view_promodiser_Mobilenumber = '';
-      $this->view_promodiser_Location_code = '';
+     
+    }
+
+    public function showAssignPromodiser($id)
+    {
+        $promodiser = Promodisers::with('latest_assignment.location')->find($id);
+
+        // dd($promodiser->latest_assignment->location->LocationCode);
+
+        $this->selectedPromodiser = $promodiser;
+
+        $this->dispatchBrowserEvent('assign-promodiser-modal');
+    }
+
+    public function assignPromodiser($id)
+    {
+        // Reset values
+        $this->resetValidation();
+
+        $location = LocationCode::where('LocationCode', $this->assigned_location)->first();
+
+        $this->assigned_location = null;
+
+        if(!$location) {
+            return $this->addError('assigned_location', 'The location code is invalid.');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $promodiserAssignment = PromodiserAssignation::create([
+                'promodisers_id' => Promodisers::find($id)->id,
+                'location_codes_id' => $location->id
+            ]);
+
+            DB::commit();
+
+            $this->dispatchBrowserEvent('hide-assign-promodiser-modal');
+            $this->selectedPromodiser = null;
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            dd($e->getMessage());
+            return $this->addError('assigned_location', 'Something went wrong.');
+        }
     }
 
 
     public function render()
     {
         //Get all students
-       $promodisers = Promodisers::where('Firstname','like', '%'.$this->searchTerm.'%')->orwhere('Lastname', 'like','%' .$this->searchTerm.'%')
-       ->orwhere('Mobilenumber','like', '%' .$this->searchTerm.'%')->orwhere('promodiser_id','like', '%'.$this->searchTerm.'%')->orwhere('Location_code','like', '%' .$this->searchTerm.'%')->get(); 
+       $promodisers = Promodisers::where('Firstname','like', '%'.$this->searchTerm.'%')
+            ->orWhere('Lastname', 'like','%' .$this->searchTerm.'%')
+            ->orWhere('Mobilenumber','like', '%' .$this->searchTerm.'%')
+            ->orWhere('promodiser_id','like', '%'.$this->searchTerm.'%')
+            // ->orWhere('Location_code','like', '%' .$this->searchTerm.'%')
+            ->paginate(1); 
 
-        return view('livewire.promodisers-component', ['promodisers'=>$promodisers])->layout('livewire.layouts.base');
+        return view('livewire.promodisers-component', compact('promodisers'))
+            ->layout('livewire.layouts.base');
     }
 }
 

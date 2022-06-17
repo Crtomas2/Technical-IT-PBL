@@ -14,6 +14,7 @@ use App\Http\Livewire\StoresComponent;
 use App\Http\Controllers\StoreController;
 use App\Http\Livewire\PromodisersComponent;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\SMSController;
 use Illuminate\Support\Facades\App\Models\Store;
 use App\Http\Controllers\Store\PromodisersController;
 use App\Models\SMSApi;
@@ -112,9 +113,14 @@ Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('
 Route::get('/token',function(){
     return csrf_token();
 });
-Route::get('EssAPI', function(){
-    return SMSApi::all();
-});
+// Route::get('EssAPI', function(){
+//     //return SMSApi::all();
+//     //  return view('EssAPI');
+
+// });
+
+Route::get('EssAPI', [SMSController::class, 'index']);
+
 Route::get('EssAPI/{id}', function($id) {
     return SMSApi::find($id);
 });
