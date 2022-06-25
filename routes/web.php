@@ -1,23 +1,29 @@
 <?php
 
-
+use App\Exports\ImportExportController;
+use App\Http\Controllers\CsvExportController;
+use App\Http\Controllers\CsvImportController;
+use App\Models\SMSApi;
 use App\Models\Promodisers;
 use Illuminate\Http\Request;
-use App\Models\Storelocation;
 
+use App\Models\Storelocation;
+use App\Models\ItemMasterlists;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\FileUpload;
 use App\Http\Livewire\StoreDropdown;
 use App\Http\Livewire\StoreComponent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\StoresComponent;
+use App\Http\Controllers\SMSController;
 use App\Http\Controllers\StoreController;
 use App\Http\Livewire\PromodisersComponent;
 use App\Http\Controllers\FileUploadController;
-use App\Http\Controllers\SMSController;
+use App\Http\Controllers\PromodiserController;
 use Illuminate\Support\Facades\App\Models\Store;
+use App\Http\Controllers\ItemMasterlistController;
 use App\Http\Controllers\Store\PromodisersController;
-use App\Models\SMSApi;
+
 
 
 
@@ -99,7 +105,7 @@ Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
 
 //Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
 
-Route::view('test-upload', 'file.test-upload')->name('test-upload');
+Route::get('test-upload', [FileUploadController::class, 'index'])->name('test-upload');
 Route::post('test-upload', [FileUploadController::class, 'upload'])->name('test-upload.upload');
 Route::get('test-upload/store', [FileUploadController::class, 'view']);
 Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('test-upload.store');
@@ -129,6 +135,13 @@ Route::get('EssAPI/{id}', function($id) {
      $data = $request->all();
          return SMSApi::create([
             'barcode_number' => $data['barcode_number'],
+            'stores_name' =>$data['stores_name'],
         ]);
  });
 
+
+
+//  //Trial Export CSV file
+//  Route::get('/csv_file', [ItemMasterlistController::class, 'index']);
+//  Route::get('/csv_file/export', [CsvExportController::class, 'csv_export'])->name('export');
+//  Route::post('/csv_file/import', [CsvImportController::class, 'csv_import'])->name('import');

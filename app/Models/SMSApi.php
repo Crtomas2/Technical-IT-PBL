@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SMSApi extends Model
 {
     use HasFactory;
-    protected $fillable = ['barcode_number'];
+    protected $fillable = ['barcode_number','stores_name'];
 }

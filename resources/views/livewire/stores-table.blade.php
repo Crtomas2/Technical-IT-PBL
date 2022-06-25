@@ -44,6 +44,8 @@
         </tbody>
     </table>
 
+    {{  $stores->links() }}
+
     {{-- Show Modal--}}
     @if($currentStore)
     <div wire:ignore.self class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledBy="showModalLabel" aria-hidden="true">
@@ -146,3 +148,5 @@
         })
     </script>
 </div>
+
+

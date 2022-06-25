@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('s_m_s_apis', function (Blueprint $table) {
             $table->id();
             $table->string('barcode_number');
+            $table->string('stores_name');
             $table->timestamps();
         });
     }

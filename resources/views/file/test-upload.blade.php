@@ -42,7 +42,9 @@
         </form>
     </div>
 
-    @if(session('collection'))
+    {{-- @dump($temp_data) --}}
+
+    @if($temp_data->count() > 0)
     <div class="card mt-4">
         <div class="card-header">
             Extracted table
@@ -57,7 +59,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(session('collection') as $row)
+                    @foreach($temp_data as $row)
                     <tr>
                         <th scope="row">{{ $row->id }}</th>
                         <td scope="row">{{ $row->first_name }}</td>
@@ -66,6 +68,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div style="width: 100%">
+                {{ $temp_data->links() }}
+            </div>
         </div>
         <div class="card-footer">
             <form class="needs-validation" method="POST" action="{{ route('test-upload.store') }}">

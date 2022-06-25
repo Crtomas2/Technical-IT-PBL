@@ -4,10 +4,14 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\StoreItem;
+use Livewire\WithPagination;
 
 class StoresTable extends Component
 {
-    public $stores;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+    
     public $currentStore = null;
 
     protected $listeners = [
@@ -17,9 +21,8 @@ class StoresTable extends Component
 
     public function mount()
     {
-        $this->stores = StoreItem::all();
+        $this->storeitem = StoreItem::all();
     }
-
     public function showStore($id)
     {
         $this->currentStore = StoreItem::find($id);
@@ -60,6 +63,8 @@ class StoresTable extends Component
 
     public function render()
     {
-        return view('livewire.stores-table');
+        $stores = StoreItem::paginate(2);
+
+        return view('livewire.stores-table', compact('stores'));
     }
 }

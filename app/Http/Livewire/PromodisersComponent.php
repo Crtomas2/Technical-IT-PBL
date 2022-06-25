@@ -56,7 +56,7 @@ class PromodisersComponent extends Component
      
     $promodiser->save();
      
-    session()->flash('message','New Promo merchandiser has been added successfilly');
+    session()->flash('message','New Promo merchandiser has been added successfully');
 
     $this->promodiser_id ='';
     $this->Firstname ='';
@@ -114,7 +114,7 @@ class PromodisersComponent extends Component
 
        $promodiser->save();
 
-       session()->flash('message', 'Promodiser gas been updated successfully');
+       session()->flash('message', 'Promodiser has been updated successfully');
 
        //For hide modal after add promodiser success
        $this->dispatchBrowserEvent('close-modal');
@@ -218,7 +218,7 @@ class PromodisersComponent extends Component
             ->orWhere('Mobilenumber','like', '%' .$this->searchTerm.'%')
             ->orWhere('promodiser_id','like', '%'.$this->searchTerm.'%')
             // ->orWhere('Location_code','like', '%' .$this->searchTerm.'%')
-            ->paginate(1); 
+            ->paginate(2); 
 
         return view('livewire.promodisers-component', compact('promodisers'))
             ->layout('livewire.layouts.base');

@@ -64,6 +64,8 @@
                         </div>
 
                         <div class="w-full">
+                            {{-- @dump($promodisers) --}}
+
                             {{  $promodisers->links() }}
                         </div>
                     </div>
