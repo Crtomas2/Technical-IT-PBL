@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('s_m_s_apis', function (Blueprint $table) {
+        Schema::create('new_tables', function (Blueprint $table) {
             $table->id();
-            $table->string('barcode_number');
-            $table->string('stores_name');
+            $table->string('item_number')->nullable();
+            $table->string('description')->nullable();
+            $table->string('item_division')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('s_m_s_apis');
+        Schema::dropIfExists('new_tables');
     }
 };

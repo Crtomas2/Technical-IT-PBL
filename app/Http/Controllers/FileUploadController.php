@@ -30,8 +30,9 @@ class FileUploadController extends Controller
             // Insert new rows to the 'temp_data' table
             $collection = (new FastExcel())->import($request->file, function ($line) {
                 return TempData::create([
-                    'first_name' => $line['Firstname'],
-                    'last_name' => $line['Lastname']
+                    'item_number' => $line['item_number'],
+                    'description' => $line['description'],
+                    'item_division' =>$line['item_division'],
                 ]);
             });
 
@@ -76,18 +77,20 @@ class FileUploadController extends Controller
                     foreach($chunk as $row) {
                         // dd($row);
                         NewTable::insert([
-                            'firstname' => $row->first_name,
-                            'last_name' => $row->last_name
+                            'item_number' => $row->item_number,
+                            'description' => $row->description,
+                            'item_division'=>$row->item_division,
                         ]);
                         // dispatch(new FileUploadJob($row));
                     }
                 }
             } else {
                 foreach($temp_data as $row) {
-                    dd('else', $row);
+                    //dd('else', $row);
                     NewTable::insert([
-                        'firstname' => $row->first_name,
-                        'last_name' => $row->last_name
+                        'item_number' => $row->item_number,
+                        'description' => $row->description,
+                        'item_division' => $row->item_division
                     ]);
                 }
             }

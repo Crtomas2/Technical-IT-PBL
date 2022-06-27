@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class NewTable extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'firstname',
-        'last_name'
+        'item_number',
+        'description',
+        'item_division' 
     ];
 }

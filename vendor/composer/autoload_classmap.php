@@ -45,6 +45,7 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Requests\\StoreTaskRequest' => $baseDir . '/app/Http/Requests/StoreTaskRequest.php',
     'App\\Http\\Requests\\UpdateTaskRequest' => $baseDir . '/app/Http/Requests/UpdateTaskRequest.php',
+    'App\\Jobs\\FileUploadJob' => $baseDir . '/app/Jobs/FileUploadJob.php',
     'App\\Models\\File' => $baseDir . '/app/Models/File.php',
     'App\\Models\\LocationCode' => $baseDir . '/app/Models/LocationCode.php',
     'App\\Models\\NewTable' => $baseDir . '/app/Models/NewTable.php',

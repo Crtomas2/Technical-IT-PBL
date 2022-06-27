@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('new_tables', function (Blueprint $table) {
+        Schema::create('temp_data', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('last_name');
+            $table->string('item_number')->nullable();
+            $table->string('description')->nullable();
+            $table->string('item_division')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('new_tables');
+        Schema::dropIfExists('temp_data');
     }
 };

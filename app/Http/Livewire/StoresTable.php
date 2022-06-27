@@ -63,7 +63,7 @@ class StoresTable extends Component
 
     public function render()
     {
-        $stores = StoreItem::paginate(2);
+        $stores = StoreItem::paginate(4);
 
         return view('livewire.stores-table', compact('stores'));
     }

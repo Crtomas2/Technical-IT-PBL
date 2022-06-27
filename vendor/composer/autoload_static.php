@@ -615,6 +615,7 @@ class ComposerStaticInit69cb732a8c3b931c3d3b14b59d51a483
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\StoreTaskRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StoreTaskRequest.php',
         'App\\Http\\Requests\\UpdateTaskRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateTaskRequest.php',
+        'App\\Jobs\\FileUploadJob' => __DIR__ . '/../..' . '/app/Jobs/FileUploadJob.php',
         'App\\Models\\File' => __DIR__ . '/../..' . '/app/Models/File.php',
         'App\\Models\\LocationCode' => __DIR__ . '/../..' . '/app/Models/LocationCode.php',
         'App\\Models\\NewTable' => __DIR__ . '/../..' . '/app/Models/NewTable.php',

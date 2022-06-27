@@ -53,17 +53,19 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
+                        {{-- <th scope="col">#</th> --}}
+                        <th scope="col">Item number</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Item division</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($temp_data as $row)
                     <tr>
-                        <th scope="row">{{ $row->id }}</th>
-                        <td scope="row">{{ $row->first_name }}</td>
-                        <td scope="row">{{ $row->last_name }}</td>
+                        {{-- <th scope="row">{{ $row->id }}</th> --}}
+                        <th scope="row">{{ $row->item_number}}</th>
+                        <td scope="row">{{ $row->description }}</td>
+                        <td scope="row">{{ $row->item_division }}</td>
                     </tr>
                     @endforeach
                 </tbody>

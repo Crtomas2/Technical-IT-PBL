@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TempData extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'first_name',
-        'last_name'
+        'item_number',
+        'description',
+        'item_division' 
     ];
 }

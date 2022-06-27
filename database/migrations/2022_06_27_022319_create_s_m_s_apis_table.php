@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('temp_data', function (Blueprint $table) {
+        Schema::create('s_m_s_apis', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('barcode_number');
+            $table->string('Store_name');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('temp_data');
+        Schema::dropIfExists('s_m_s_apis');
     }
 };

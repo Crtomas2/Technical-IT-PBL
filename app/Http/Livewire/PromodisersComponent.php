@@ -218,7 +218,7 @@ class PromodisersComponent extends Component
             ->orWhere('Mobilenumber','like', '%' .$this->searchTerm.'%')
             ->orWhere('promodiser_id','like', '%'.$this->searchTerm.'%')
             // ->orWhere('Location_code','like', '%' .$this->searchTerm.'%')
-            ->paginate(2); 
+            ->paginate(6); 
 
         return view('livewire.promodisers-component', compact('promodisers'))
             ->layout('livewire.layouts.base');
