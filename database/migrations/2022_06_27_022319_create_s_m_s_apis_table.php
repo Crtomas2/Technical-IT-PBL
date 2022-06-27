@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('barcode_number');
             $table->string('Store_name');
+            $table->string('Fullname');
             $table->timestamps();
         });
     }

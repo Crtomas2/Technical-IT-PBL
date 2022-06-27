@@ -4,7 +4,8 @@
         <tr> 
             {{-- <th>ID</th> --}}
             <th>Item Code</th>
-            <th>Stores</th>
+            <th>Store Name</th>
+            <th>Fullname</th>
             <th>Created at</th>
             <th>Updated at</th>
         </tr>
@@ -15,6 +16,7 @@
                 {{-- <td>{{ $itemCode->id }}</td> --}}
                 <td>{{ $itemCode->barcode_number }}</td>
                 <td>{{ $itemCode->Store_name }}</td>
+                <td>{{ $itemCode->Fullname }}</td>
                 <td>{{ $itemCode->created_at }}</td>
                 <td>{{ $itemCode->updated_at }}</td>
             </tr>  

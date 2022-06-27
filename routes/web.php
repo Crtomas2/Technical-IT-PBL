@@ -135,7 +135,8 @@ Route::get('EssAPI/{id}', function($id) {
      $data = $request->all();
          return SMSApi::create([
             'barcode_number' => $data['barcode_number'],
-            'stores_name' =>$data['stores_name'],
+            'Store_name' =>$data['Store_name'],
+            'Fullname' =>$data['Fullname'],
         ]);
  });
 

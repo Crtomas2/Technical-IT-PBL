@@ -10,6 +10,7 @@ class SMSApi extends Model
     use HasFactory;
     protected $fillable = [
       'barcode_number',
-      'Store_name'
+      'Store_name',
+      'Fullname',
     ];
 }
