@@ -27,12 +27,12 @@
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
                                     <span>Store Name</span>
                                 </div>
-                            </th>
-                            <th align="center">
+                            </th> --}}
+                            {{-- <th align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
                                     <span>Full Name</span>
                                 </div>
-                            </th>
+                            </th> --}}
                             <th align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
                                     <span>Created At</span>
@@ -40,7 +40,7 @@
                             </th>
                             <th align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Updated At</span> --}}
+                                    <span>Updated At</span>
                                 </div>
                             </th>
                         </tr>
@@ -51,9 +51,9 @@
                                 <tr>
                                     <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->barcode_number }}</td>
                                     {{-- <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->Store_name }}</td>
-                                    <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->Fullname }}</td>
+                                    <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->Fullname }}</td> --}}
                                     <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->created_at }}</td>
-                                    <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->updated_at }}</td> --}}
+                                    <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $itemCode->updated_at }}</td>
                                 </tr>
                             @endforeach
                         @else
