@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('promodiser_assignations', function (Blueprint $table) {
+        Schema::create('store_temp_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('promodisers_id')->constrained('promodisers')->cascadeOnDelete();
-            $table->foreignId('location_codes_id')->constrained('location_codes')->cascadeOnDelete();
+            $table->string('storename')->nullable();
+            $table->string('storelocation')->nullable();
+            $table->string('location_code')->nullable();
+            $table->string('store_group')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promodiser_assignations');
+        Schema::dropIfExists('store_temp_data');
     }
 };

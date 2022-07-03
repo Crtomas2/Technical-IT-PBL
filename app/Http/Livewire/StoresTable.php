@@ -5,31 +5,58 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\StoreItem;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class StoresTable extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
+    protected $queryString = ['sortBy', 'sortDirection'];
     
     public $currentStore = null;
 
     protected $listeners = [
         'updatedStore' => 'mount',
-        'deletedStore' => 'mount'
+        'deletedStore' => 'mount',
+        'showCreate' => 'create',
+        'hideStoreCreate' => 'hideStoreCreate'
     ];
+
+    /**
+     * Modal Variables
+     * 
+     */
+    public $showStoreEdit = false;
+    public $showStoreCreate = false;
+    public $confirmStoreDeletion = false;
+
+    public $sortBy = 'ID';
+    public $sortDirection = 'ASC';
+
+    public function cancelEdit()
+    {
+        $this->showStoreEdit = false;
+
+        $this->reset();
+    }
+
+
+
 
     public function mount()
     {
         $this->storeitem = StoreItem::all();
     }
-    public function showStore($id)
+    public function create()
     {
-        $this->currentStore = StoreItem::find($id);
-        
-        if($this->currentStore) {
-            $this->dispatchBrowserEvent('show-modal');
-        }
+        $this->showStoreCreate = true;
+    }
+
+    public function hideStoreCreate()
+    {
+        $this->showStoreCreate = false;
+
+        $this->emit('hideStoreCreateModal');
     }
 
     public function editStore($id)
@@ -37,33 +64,65 @@ class StoresTable extends Component
         $this->currentStore = StoreItem::find($id);
 
         if($this->currentStore) {
-            $this->dispatchBrowserEvent('edit-modal');
+            $this->showStoreEdit = true;
         }
+    }
+
+    public function hideStoreEdit()
+    {
+        $this->showStoreEdit = false;
+
+        $this->currentStore = null;
+
     }
 
     public function deleteStore($id)
     {
         $this->currentStore = StoreItem::find($id);
 
-        if($this->currentStore) {
-            $this->dispatchBrowserEvent('delete-modal');
-        }
+        $this->confirmStoreDeletion = true;
     }
 
-    public function destroyStore($id)
+    public function hideStoreDelete()
     {
-        $this->currentStore = StoreItem::find($id);
-
-        $this->currentStore->delete();
-
+        $this->confirmStoreDeletion = false;
+        
         $this->currentStore = null;
+    }
 
-        $this->emit('deletedStore');
+    public function destroyStore()
+    {
+        try {
+            DB::beginTransaction();
+            
+            $this->currentStore->delete();
+
+            DB::commit();
+
+            $this->hideStoreDelete();
+
+            session()->flash('flash.banner', 'Store deleted successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            session()->flash('flash.banner', 'Store deleted successfully!');
+            session()->flash('flash.bannerStyle', 'danger');
+
+        }
+
+
+    }
+
+
+    public function setSort($query ,$direction)
+    {
+        $this->sortBy = $query;
+        $this->sortDirection = $direction;
     }
 
     public function render()
     {
-        $stores = StoreItem::paginate(4);
+        $stores = StoreItem::orderBy($this->sortBy, $this->sortDirection)->paginate(4);
 
         return view('livewire.stores-table', compact('stores'));
     }

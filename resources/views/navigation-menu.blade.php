@@ -15,18 +15,27 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('store.index') }}" :active="request()->routeIs('store.*')">
+                        {{ __('Stores') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('promodisers.index') }}" :active="request()->routeIs('promodisers.*')">
+                        {{ __('Promodisers') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('test-upload.index') }}" :active="request()->routeIs('test-upload.*')">
+                        {{ __('Upload') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('ess-api.index') }}" :active="request()->routeIs('ess-api.*')">
+                        {{ __('API') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('stores-upload.index') }}" :active="request()->routeIs('stores-upload.*')">
+                        {{ __('Store Files') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('promodisers-upload.index') }}" :active="request()->routeIs('promodisers-upload.*')">
+                        {{ __('Promodisers Files') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
-          
-
-              
-
-
-
-           
-         
-            
-
+                    
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
@@ -165,6 +174,7 @@
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->username }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->UserRole }}</div>
                 </div>
             </div>
 

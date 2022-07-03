@@ -10,7 +10,6 @@ class Promodisers extends Model
     use HasFactory;
     
     protected $fillable = [
-        'promodiser_id',
         'Firstname',
         'Lastname',
         'Mobilenumber',
@@ -32,6 +31,6 @@ class Promodisers extends Model
      */
     public function latest_assignment()
     {
-        return $this->hasOne(PromodiserAssignation::class)->latestOfMany();
+        return $this->hasOne(PromodiserAssignation::class)->latest();
     }
 }

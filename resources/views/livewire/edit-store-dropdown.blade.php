@@ -1,49 +1,34 @@
 <form wire:submit.prevent="update" class="w-full">
-    @if(session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-    <div class="mb-3">
-        <label for="storename" class="form-label">Store Name</label>
-        <select class="form-control" name="" id="storename" wire:model="selectedStoreName">
-            <option hidden>Choose Store</option>
-            @foreach ($storeNames as $key => $store)
-                <option value="{{ $key }}">{{ $store }}</option>
+    <div class="w-full mb-3">
+        <x-jet-label for="store_location">Store location</x-jet-label>
+        <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full mb-2" id="store_location" wire:model.defer="selectedStoreLocation">
+            <option value=""></option>
+            @foreach ($storeLocations as $key => $location)
+                <option value="{{ $location->id }}">{{ $location->Storelocations }}</option>
             @endforeach
         </select>
+        <x-jet-input-error for="selectedStoreLocation" />
     </div>
-    <div class="mb-3">
-        <label for="storename" class="form-label">Store Location</label>
-        <select class="form-control" name="" id="storename" wire:model="selectedStoreLocation" wire:loading.attr="disabled" @if(!$storeLocations) disabled @endif>
-            @if($storeLocations)
-                <option hidden>Choose Location</option>
-                @foreach ($storeLocations as $key => $location)
-                    <option value="{{ $location->id }}">{{ $location->Storelocations }}</option>
-                @endforeach
-            @endif
+    <div class="w-full mb-3">
+        <x-jet-label for="location_code">Location Code</x-jet-label>
+        <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full mb-2" id="location_code" wire:model.defer="selectedLocationCode">
+            <option value=""></option>
+            @foreach ($locationCodes as $key => $code)
+                <option value="{{ $code->id }}">{{ $code->LocationCode }}</option>
+            @endforeach
         </select>
+        <x-jet-input-error for="selectedStoreLocation" />
     </div>
-    <div class="mb-3">
-        <label for="storename" class="form-label">Location Code</label>
-        <select class="form-control" id="storename" wire:model="selectedLocationCode" wire:loading.attr="disabled" @if(!$locationCodes) disabled @endif>
+    <div class="w-full mb-3">
+        <x-jet-label for="store_group">Store Group</x-jet-label>
+        <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full mb-2" id="store_group" wire:model.defer="selectedStoreGroup">
             @if($locationCodes)
-                <option hidden>Choose Location Code</option>
-                @foreach ($locationCodes as $key => $code)
-                    <option value="{{ $code->id }}">{{ $code->LocationCode }}</option>
+                <option hidden>Choose Store Group</option>
+                 @foreach ($storeGroups as $key => $group)
+                    <option value="{{ $key }}">{{ $group }}</option>
                 @endforeach
             @endif
         </select>
+        <x-jet-input-error for="selectedStoreGroup" />
     </div>
-    <div class="mb-3">
-        <label for="storename" class="form-label">Store Group</label>
-        <select class="form-control" name="" id="store-group" wire:model="selectedStoreGroup">
-            <option hidden>Choose Store Group</option>
-            @foreach ($storeGroups as $key => $group)
-                <option value="{{ $key }}">{{ $group }}</option>
-            @endforeach
-        </select>
-    </div>
-    <center><button type="submit" class="btn btn-block btn-danger mb-4">UPDATE</button></center>
-    <center><button type="button" wire:click.prevent="delete" class="btn btn-block btn-danger">DELETE</button></center>
 </form>

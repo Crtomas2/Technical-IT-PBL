@@ -14,8 +14,7 @@ class PromodiserController extends Controller
      */
     public function index()
     {
-        $promodiser = Promodisers::all();
-        return view('index',compact('promodiser'));
+        return view('store.promodisers.index');
     }
 
     /**

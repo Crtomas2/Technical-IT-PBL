@@ -63,8 +63,12 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function promodiserUser() {
+    public function User() {
 
-        return $this->hasOne(promodiserUser::class);
+        // return $this->hasOne(promodiserUser::class);
+
+        // return $this->hasMany(User::class);
+
+        return $this->belongsTo('\App\Models\User');
     }
 }

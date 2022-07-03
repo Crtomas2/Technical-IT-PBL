@@ -1,12 +1,11 @@
-@extends('layouts.layout')
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Stores') }}
+            </h2>
+        </div>
+    </x-slot>
 
-@section('content')
-<div class="d-flex align-items-center justify-content-between mb-4">
-    <h2>Lists of Stores</h2>
-    <div>
-        <a href="{{ route('store.create') }}" class=" btn btn-primary active -2" role="button" aria-pressed="true">Create</a>
-    </div>
-</div>
-
-<livewire:stores-table />
-@endsection
+    <livewire:stores-table />
+</x-app-layout>

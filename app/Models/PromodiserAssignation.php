@@ -14,6 +14,11 @@ class PromodiserAssignation extends Model
         'location_codes_id',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
+
     /**
      * Get the location of the current location
      */

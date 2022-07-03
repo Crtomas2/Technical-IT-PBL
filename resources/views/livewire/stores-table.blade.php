@@ -1,152 +1,210 @@
 <div>
-    @if(session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-
-    <table class="table">
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>Store Name</td>
-                <td>Location</td>
-                <td>Code</td>
-                <td>Group</td>
-                <td align="right">Actions</td>
-            </tr>
-        </thead>
-        <tbody>
-            @if($stores->count() > 0)
-                @foreach($stores as $store)
-                <tr>
-                    <td>{{ $store->id }}</td>
-                    <td>{{ $store->storeName->Storename }}</td>
-                    <td>{{ $store->storeLocation->Storelocations }}</td>
-                    <td>{{ $store->locationCode->LocationCode }}</td>
-                    <td>{{  $store->storeGroup->StoreGroup }}</td>
-                    <td align="right">
-                        <div class="flex">
-                            <button type="button" wire:click.prevent="showStore({{$store->id}})" class="btn btn-primary ml-2" data-toggle="modal" data-target="#showModal">View</button>
-                            <button type="button" wire:click.prevent="editStore({{$store->id}})" class="btn btn-primary ml-2" data-toggle="modal" data-target="#editModal">Edit</a>
-                            <button type="button" wire:click.prevent="deleteStore({{$store->id}})" class="btn btn-danger ml-2" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="6">
-                        <center>No stores found.</center>
-                    </td>
-                </tr>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if(session()->has('flash.banner'))
+                <div class="overflow-hidden rounded-md mb-3">
+                    <x-jet-banner message="{{ session('flash.banner') }}" class="rounded-md"></x-jet-banner>
+                </div>
             @endif
-        </tbody>
-    </table>
+        </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="flex items-center justify-end px-4 py-5">
+                    <x-jet-button wire:click="create()">Create</x-jet-button>
+                </div>
+                
+                <table class="table-auto px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md w-full">
+                    <thead class="px-4 py-3 bg-gray-200 text-right sm:px-6 border-b sm:rounded-bl-md sm:rounded-br-md">
+                        <tr height="50">
+                            <th align="center" role="button" wire:click="setSort('id','{{ $sortBy === 'id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC'}}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>ID</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'id')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th align="center" role="button" wire:click="setSort('store_id', '{{ $sortBy === 'store_id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC'}}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Store Name</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'store_id')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th role="button" align="center" wire:click="setSort('storelocation_id', '{{ $sortBy === 'storelocation_id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC' }}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Location</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'storelocation_id')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th role="button" align="center" wire:click="setSort('locationcode_id', '{{ $sortBy === 'locationcode_id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC' }}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Code</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'locationcode_id')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th role="button" align="center" wire:click="setSort('storegroup_id', '{{ $sortBy === 'storegroup_id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC' }}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Group</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'storegroup_id')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th align="center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @if($stores->count() > 0)
+                            @foreach($stores as $store)
+                            <tr>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $store->id }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $store->storeName->Storename }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $store->storeLocation->Storelocations }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $store->locationCode->LocationCode }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{  $store->storeGroup->StoreGroup }}</td>
+                                <td align="right">
+                                    <div class="flex">
+                                        {{-- <button type="button" wire:click.prevent="showStore({{$store->id}})" class="btn btn-primary ml-2" data-toggle="modal" data-target="#showModal">View</button> --}}
+                                        <button type="button" wire:click.prevent="editStore({{$store->id}})" class="btn btn-primary ml-2" data-toggle="modal" data-target="#editModal">Edit</a>
+                                        <button type="button" wire:click.prevent="deleteStore({{$store->id}})" class="btn btn-danger ml-2" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="6">
+                                    <center>No stores found.</center>
+                                </td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
 
-    {{  $stores->links() }}
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
+                    {{  $stores->links() }}
+                </div>
 
-    {{-- Show Modal--}}
-    @if($currentStore)
-    <div wire:ignore.self class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledBy="showModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="showModalLabel">{{  $currentStore->storeName->Storename }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true" class="close-btn">x</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table">
-                        <tr>
-                            <td><strong>Store Name</strong></td>
-                            <td>{{ $currentStore->storeName->Storename }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Location</strong></td>
-                            <td>{{ $currentStore->storeLocation->Storelocations }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Code</strong></td>
-                            <td>{{ $currentStore->locationCode->LocationCode }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Group</strong></td>
-                            <td>{{ $currentStore->storeGroup->StoreGroup }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
-                    <button type="button" wire:click.prevent="editStore({{$store->id}})" class="btn btn-primary close-modal" data-dismiss="modal">Edit</button>
-                </div>
             </div>
         </div>
     </div>
-    @endif
 
-    {{-- Edit Modal--}}
-    @if($currentStore)
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledBy="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="showModalLabel">{{  $currentStore->storeName->Storename }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true" class="close-btn">x</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <livewire:edit-store-dropdown storeItem="{{ $currentStore->id }}" />
-                </div>
+    <!-- start: Edit -->
+    <x-jet-dialog-modal wire:model="showStoreCreate">
+        <x-slot name="title">
+            Add a new store
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="relative flex flex-col space-y-2">
+                <livewire:store-dropdown />
             </div>
-        </div>
-    </div>
-    @endif
+        </x-slot>
 
-    {{-- Delete Modal--}}
-    @if($currentStore)
-    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledBy="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete {{ $currentStore->storeName->Storename }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true" class="close-btn">x</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Do you want to delete <strong>{{  $currentStore->storeName->Storename }}</strong>?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Cancel</button>
-                    <button type="button" wire:click.prevent="destroyStore({{$store->id}})" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Yes, delete</button>
-                </div>
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="hideStoreCreate" wire:loading.attr="disabled">
+                Close
+            </x-jet-secondary-button>
+            <x-jet-button wire:click="$emit('createStore')" wire:loading.attr="disabled" class="ml-2">
+                Create
+            </x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+
+    
+
+    <!-- start: Edit -->
+    <x-jet-confirmation-modal wire:model="confirmStoreDeletion">
+        <x-slot name="title">
+           Delete {{ $currentStore ? $currentStore->storeName->Storename : null }}
+        </x-slot>
+
+        <x-slot name="content">
+            Are you sure you want to delete "{{ $currentStore ? $currentStore->storeName->Storename : null }}"?
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="hideStoreDelete" wire:loading.attr="disabled">
+                Close
+            </x-jet-secondary-button>
+            <x-jet-danger-button wire:click="destroyStore" wire:loading.attr="disabled" class="ml-2">
+                Yes, delete
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
+
+    <!-- start: Edit -->
+    <x-jet-dialog-modal wire:model="showStoreEdit">
+        <x-slot name="title">
+            {{ $currentStore ? $currentStore->storeName->Storename : null }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="relative flex flex-col space-y-2">
+                @if($currentStore)
+                    <livewire:edit-store-dropdown storeItem="{{$currentStore->id }}" />
+                @endif
             </div>
-        </div>
-    </div>
-    @endif
+        </x-slot>
 
-    <script>
-        window.addEventListener('show-modal', event => {
-            $('#showModal').modal('show');
-        })
-        window.addEventListener('edit-modal', event => {
-            $('#editModal').modal('show');
-            $('#showModal').modal('hide');
-        })
-        window.addEventListener('delete-modal', event => {
-            $('#editModal').modal('hide');
-            $('#showModal').modal('hide');
-            $('#deleteModal').modal('show');
-        })
-        window.addEventListener('close-modal', event => {
-            $('#editModal').modal('hide');
-            $('#showModal').modal('hide');
-            $('#deleteModal').modal('hide');
-        })
-    </script>
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="hideStoreEdit" wire:loading.attr="disabled">
+                Close
+            </x-jet-secondary-button>
+            <x-jet-button wire:click="$emit('updateStore')" wire:loading.attr="disabled" class="ml-2">
+                Update
+            </x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+
 </div>
 
 

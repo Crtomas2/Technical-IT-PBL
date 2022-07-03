@@ -23,6 +23,13 @@ class EditStoreDropdown extends Component
     public $storeNames = [], $storeLocations = [], $locationCodes = [], $storeGroups = [];
     public $storeItem;
 
+    /**
+     * Listeners
+     */
+    protected $listeners = [
+        'updateStore' => 'update'
+    ];
+
     /*
     |--------------------------------------------------------------
     | When values change

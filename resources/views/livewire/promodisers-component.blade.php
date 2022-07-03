@@ -1,351 +1,283 @@
 <div>
-    <div class="container mt-5">
-        <div class="row mb-5">
-            <div class="col-md-12 text-center">
-                <h3><strong>Edge Scanner Promo Merchandiser Form</strong></h3>
-            </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if(session()->has('flash.banner'))
+                <div class="overflow-hidden rounded-md mb-3">
+                    <x-jet-banner message="{{ session('flash.banner') }}" class="rounded-md"></x-jet-banner>
+                </div>
+            @endif
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 style="float: left;"><strong>Lists of Promodisers</strong></h5>
-                        <button class="btn btn-sm btn-primary" style="float: right;" data-toggle="modal" data-target="#addPromodiserModal">Add New Promodisers</button>
-                    </div>
-                    <div class="card-body">
-                        @if (session()->has('message'))
-                            <div class="alert alert-success text-center">{{ session('message') }}</div>
-                        @endif
-
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <input type="search" class="form-control w-25" placeholder="search" wire:model="searchTerm" style="float: right;" />
-                            </div>
-                        </div>
-
-                        <div class="w-full max-w-full overflow-scroll">
-                            <table class="table table-bordered max-w-full">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Mobile Number</th>
-                                        <th>Location Code</th>
-                                        <th style="text-align: center;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($promodisers->count() > 0)
-                                        @foreach ($promodisers as $promodiser)
-                                            <tr>
-                                                <td>{{ $promodiser->promodiser_id }}</td>
-                                                <td>{{ $promodiser->Firstname }}</td>
-                                                <td>{{ $promodiser->Lastname }}</td>
-                                                <td>{{ $promodiser->Mobilenumber }}</td>
-                                                <td>{{ $promodiser->latest_assignment ? $promodiser->latest_assignment->location->LocationCode : 'none' }}</td>
-
-                                                <td style="text-align: center;">
-                                                    <button class="btn btn-sm btn-primary" wire:click="viewPromodiserDetails({{ $promodiser->id }})">View</button>
-                                                    <button class="btn btn-sm btn-secondary" wire:click="editPromodisers({{ $promodiser->id }})">Edit</button>
-                                                    <button class="btn btn-sm btn-secondary" wire:click="showAssignPromodiser({{ $promodiser->id }})">Assign</button>
-                                                    <button class="btn btn-sm btn-danger" wire:click="deleteConfirmation({{ $promodiser->id }})">Delete</button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="4" style="text-align: center;"><small>No Promodiser Found</small></td>
-                                        </tr>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="flex items-center justify-end px-4 py-5">
+                    <x-jet-button wire:click="createPromodiser()">Create</x-jet-button>
+                </div>
+                <table class="table-auto w-full px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
+                    <thead class="px-4 py-3 bg-gray-200 text-right sm:px-6 border-b sm:rounded-bl-md sm:rounded-br-md">
+                        <tr height="50">
+                            <th align="center" role="button" wire:click="setSort('id','{{ $sortBy === 'id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC'}}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>ID</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'id')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
                                     @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                </div>
+                            </th>
+                            <th align="center" role="button" wire:click="setSort('Firstname', '{{ $sortBy === 'Firstname' && $sortDirection === 'ASC' ? 'DESC' : 'ASC'}}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>First Name</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'Firstname')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th role="button" align="center" wire:click="setSort('Lastname', '{{ $sortBy === 'Lastname' && $sortDirection === 'ASC' ? 'DESC' : 'ASC' }}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Last Name</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'Lastname')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th role="button" align="center" wire:click="setSort('Mobilenumber', '{{ $sortBy === 'Mobilenumber' && $sortDirection === 'ASC' ? 'DESC' : 'ASC' }}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Mobile No.</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'Mobilenumber')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th role="button" align="center" wire:click="setSort('LocationCode', '{{ $sortBy === 'LocationCode' && $sortDirection === 'ASC' ? 'DESC' : 'ASC' }}')">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Location Code</span>
+                                    @if($sortBy)
+                                        @if($sortBy === 'LocationCode')
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
+                                                @if($sortDirection === 'ASC')
+                                                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    @endif
+                                </div>
+                            </th>
+                            <th align="center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @if($promodisers->count() > 0)
+                            @foreach($promodisers as $promodiser)
+                            <tr>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $promodiser->id }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $promodiser->Firstname }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $promodiser->Lastname }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $promodiser->Mobilenumber }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $promodiser->latest_assignment ? $promodiser->latest_assignment->location->LocationCode : 'none' }}</td>
+                               
+                                <td align="right">
+                                    <div class="flex">
+                                        <button type="button" wire:click.prevent="editPromodiser({{$promodiser->id}})" class="btn btn-primary ml-2">Edit</a>
+                                        <button type="button" wire:click.prevent="assignPromodiser({{$promodiser->id}})" class="btn btn-primary ml-2">Assign</a>
+                                        <button type="button" wire:click.prevent="deleteConfirmation({{$promodiser->id}})" class="btn btn-danger ml-2">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr height="50">
+                                <td colspan="6">
+                                    <center>No promodisers found.</center>
+                                </td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
 
-                        <div class="w-full">
-                            {{-- @dump($promodisers) --}}
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
+                    {{  $promodisers->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            {{  $promodisers->links() }}
-                        </div>
+    <!-- start: Create -->
+    <x-jet-dialog-modal wire:model="showPromodiserCreate">
+        <x-slot name="title">
+            Add new Promodiser
+        </x-slot>
+    
+        <x-slot name="content">
+            <form wire:submit="addPromodiserData()">
+                <div class="flex flex-col sm:flex-row sm:space-x-4">
+                    <div class="w-full mb-3">
+                        <x-jet-label for="first_name">First name</x-jet-label>
+                        <x-jet-input type="text" class="w-full mb-2" id="first_name" wire:model.defer="Firstname" />
+                        <x-jet-input-error for="Firstname" />
+                    </div>
+                    <div class="w-full mb-3">
+                        <x-jet-label for="first_name">Last name</x-jet-label>
+                        <x-jet-input type="text" class="w-full mb-2" id="first_name" wire:model.defer="Lastname" />
+                        <x-jet-input-error for="Lastname" />
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="addPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add New Promo Merchandiser</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="w-full mb-3">
+                    <x-jet-label for="mobile_number">Mobile number</x-jet-label>
+                    <x-jet-input type="text" class="w-full mb-2" id="mobile_number" wire:model.defer="Mobilenumber" size="12" />
+                    <x-jet-input-error for="Mobilenumber" />
                 </div>
-                <div class="modal-body">
+            </form>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="cancelAdd()" wire:loading.attr="disabled">
+                Cancel
+            </x-jet-secondary-button>
+    
+            <x-jet-button class="ml-2" wire:click="storePromodiserData()" wire:loading.attr="disabled">
+                <span>Add</span>
+            </x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    <!-- end: Create -->
 
+    <!-- start: Assign -->
+    <x-jet-dialog-modal wire:model="showPromodiserAssign">
+        <x-slot name="title">
+            Assign Promodiser
+        </x-slot>
+    
+        <x-slot name="content">
+            <form wire:submit="editPromodiserData()">
+                <div class="flex flex-col">
+                    <div class="w-full mb-3">
+                        <x-jet-label for="current_assignment">Current assignment: (Last Assigned: {{ $selectedPromodiser ? $selectedPromodiser->latest_assignment->created_at->diffForHumans() : null }})</x-jet-label>
+                        <x-jet-input type="text" class="w-full mb-2" id="current_assignment" value="{{ $selectedPromodiserLocationCode }}" disabled />
+                    </div>
 
-                    <form wire:submit.prevent="storePromodiserData">
-                        <div class="form-group row">
-                            <label for="promodiser_id" class="col-3">Promodiser ID</label>
-                            <div class="col-9">
-                                <input type="number" id="promodiser_id" class="form-control" wire:model="promodiser_id">
-                                @error('promodiser_id')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="Firstname" class="col-3">Firstname</label>
-                            <div class="col-9">
-                                <input type="text" id="Firstname" class="form-control" wire:model="Firstname">
-                                @error('Firstname')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="Lastname" class="col-3">Lastname</label>
-                            <div class="col-9">
-                                <input type="text" id="Lastname" class="form-control" wire:model="Lastname">
-                                @error('Lastname')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="Mobilenumber" class="col-3">Mobilenumber</label>
-                            <div class="col-9">
-                                <input type="number" id="Mobilenumber" class="form-control" wire:model="Mobilenumber">
-                                @error('Mobilenumber')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                
-
-
-                        <div class="form-group row">
-                            <label for="" class="col-3"></label>
-                            <div class="col-9">
-                                <button type="submit" class="btn btn-sm btn-primary">Add Promodisers</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="w-full mb-3">
+                        <x-jet-label for="assign_to">Assign to</x-jet-label>
+                        <select class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full mb-2" id="assign_to" wire:model.defer="assigned_location">
+                            <option value=""></option>
+                            @foreach($locations as $key => $option)
+                                <option value="{{ $key }}">{{ $option }}</option>
+                            @endforeach
+                        </select>
+                        <x-jet-input-error for="assigned_location" />
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </form>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="cancelEdit()" wire:loading.attr="disabled">
+                Cancel
+            </x-jet-secondary-button>
+    
+            <x-jet-button class="ml-2" wire:click="assignPromodiserData()" wire:loading.attr="disabled">
+                <span>Assign</span>
+            </x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    <!-- end: Assign -->
 
-
-    <div wire:ignore.self class="modal fade" id="editPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Promodisers</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <!-- start: Edit -->
+    <x-jet-dialog-modal wire:model="showPromodiserEdit">
+        <x-slot name="title">
+            Edit Promodiser Data
+        </x-slot>
+    
+        <x-slot name="content">
+            <form wire:submit="editPromodiserData()">
+                <div class="flex flex-col sm:flex-row sm:space-x-4">
+                    <div class="w-full mb-3">
+                        <x-jet-label for="first_name">First name</x-jet-label>
+                        <x-jet-input type="text" class="w-full mb-2" id="first_name" wire:model.defer="Firstname" />
+                        <x-jet-input-error for="Firstname" />
+                    </div>
+                    <div class="w-full mb-3">
+                        <x-jet-label for="first_name">Last name</x-jet-label>
+                        <x-jet-input type="text" class="w-full mb-2" id="first_name" wire:model.defer="Lastname" />
+                        <x-jet-input-error for="Lastname" />
+                    </div>
                 </div>
-                <div class="modal-body">
-
-
-                    <form wire:submit.prevent=" editPromodiserData">
-                        <div class="form-group row">
-                            <label for="promodiser_id" class="col-3">Promodisers ID</label>
-                            <div class="col-9">
-                                <input type="number" id="promodiser_id" class="form-control" wire:model="promodiser_id">
-                                @error('promodiser_id')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="Firstname" class="col-3">Firstname</label>
-                            <div class="col-9">
-                                <input type="text" id="Firstname" class="form-control" wire:model="Firstname">
-                                @error('Firstname')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="Lastname" class="col-3">Lastname</label>
-                            <div class="col-9">
-                                <input type="text" id="Lastname" class="form-control" wire:model="Lastname">
-                                @error('Lastname')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="Mobilenumber" class="col-3">Mobilenumber</label>
-                            <div class="col-9">
-                                <input type="number" id="Mobilenumber" class="form-control" wire:model="Mobilenumber">
-                                @error('Mobilenumber')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="" class="col-3"></label>
-                            <div class="col-9">
-                                <button type="submit" class="btn btn-sm btn-primary">Edit Promodiser</button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="w-full mb-3">
+                    <x-jet-label for="mobile_number">Mobile number</x-jet-label>
+                    <x-jet-input type="text" class="w-full mb-2" id="mobile_number" wire:model.defer="Mobilenumber" size="12" />
+                    <x-jet-input-error for="Mobilenumber" />
                 </div>
-            </div>
-        </div>
-    </div>
+            </form>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="cancelEdit()" wire:loading.attr="disabled">
+                Cancel
+            </x-jet-secondary-button>
+    
+            <x-jet-button class="ml-2" wire:click="editPromodiserData()" wire:loading.attr="disabled">
+                <span>Edit</span>
+            </x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    <!-- end: Edit -->
 
+    <!-- start: Delete -->
+    <x-jet-confirmation-modal wire:model="confirmingUserDeletion">
+        <x-slot name="title">
+            Delete Account
+        </x-slot>
+    
+        <x-slot name="content">
+            Are you sure you want to delete the promodiser data?
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="cancelDelete()" wire:loading.attr="disabled">
+                Cancel
+            </x-jet-secondary-button>
+    
+            <x-jet-danger-button class="ml-2" wire:click="confirmDelete()" wire:loading.attr="disabled">
+                Confirm
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
+    <!-- end: Delete -->
 
-    <div wire:ignore.self class="modal fade" id="deletePromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body pt-4 pb-4">
-                    <h6>Are you sure? You want to delete this Promodisers data!</h6>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-sm btn-primary" wire:click="cancel()" data-dismiss="modal" aria-label="Close">Cancel</button>
-                    <button class="btn btn-sm btn-danger" wire:click="deletePromodiserData()">Yes! Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div wire:ignore.self class="modal fade" id="viewPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Promodiser Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeViewPromodiserModal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @if($selectedPromodiser)
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>ID: </th>
-                                <td>{{ $selectedPromodiser->promodiser_id }}</td>
-                            </tr>
-                            <tr>
-                                <th>Name: </th>
-                                <td>{{ $selectedPromodiser->Firstname . ' ' . $selectedPromodiser->Lastname }}</td>
-                            </tr>
-                            <tr>
-                                <th>Mobile number: </th>
-                                <td>{{ $selectedPromodiser->Mobilenumber }}</td>
-                            </tr>
-                            <tr>
-                                <th>Current Location: </th>
-                                <td>{{ $selectedPromodiser->latest_assignment ? $selectedPromodiser->latest_assignment->location->LocationCode : 'none' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div wire:ignore.self class="modal fade" id="assignPromodiserModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="assignPromodiserTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="assignPromodiserTitle">Assign Promodiser</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeViewPromodiserModal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @if($selectedPromodiser)
-                    <form wire:submit.prevent="assignPromodiser({{ $selectedPromodiser->id }})">
-                        <div class="form-group row">
-                            <label for="current_location" class="col-3">Current Location</label>
-                            <div class="col-9">
-                                <span>{{ $selectedPromodiser->latest_assignment ? $selectedPromodiser->latest_assignment->location->LocationCode : '' }}</span>
-                                @error('current_location')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="Location_code" class="col-3">Location Code</label>
-                            <div class="col-9">
-                                <input id="assigned_location" class="form-control" wire:model.defer="assigned_location">
-                                @error('assigned_location')
-                                    <span class="text-danger" style="font-size: 11.5px;">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="" class="col-9"></label>
-                            <div class="col-3">
-                                <button type="submit" class="btn btn-sm btn-primary">Assign</button>
-                            </div>
-                        </div>
-                    </form>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-
-
-@push('scripts')
-    <script>
-        window.addEventListener('close-modal', event =>{
-            $('#addPromodiserModal').modal('hide');
-            $('#editPromodiserModal').modal('hide');
-            $('#deletePromodiserModal').modal('hide');
-            $('#assignPromodiserModal').modal('hide');
-        });
-        window.addEventListener('show-edit-promodiser-modal', event =>{
-            $('#editPromodiserModal').modal('show');
-        });
-        window.addEventListener('show-delete-confirmation-modal', event =>{
-            $('#deletePromodiserModal').modal('show');
-        });
-        window.addEventListener('show-view-promodiser-modal', event =>{
-            $('#viewPromodiserModal').modal('show');
-        });
-        window.addEventListener('assign-promodiser-modal', event =>{
-            $('#assignPromodiserModal').modal('show');
-        });
-        window.addEventListener('hide-assign-promodiser-modal', event =>{
-            $('#assignPromodiserModal').modal('hide');
-        });
-    </script>
-@endpush
 
 

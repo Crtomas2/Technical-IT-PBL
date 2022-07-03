@@ -22,10 +22,9 @@ use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\PromodiserController;
 use Illuminate\Support\Facades\App\Models\Store;
 use App\Http\Controllers\ItemMasterlistController;
+use App\Http\Controllers\Promodiser_fileController;
 use App\Http\Controllers\Store\PromodisersController;
-
-
-
+use App\Http\Controllers\StoreFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,16 +68,52 @@ Route::get('promodisers', PromodisersComponent::class);
 //     return view('dropdown',['Store' => $Store]);
 // });
 
-Route::group(['prefix' => 'stores'], function () {
-    Route::get('/', [StoreController::class, 'index'])->name('store.index');
-    Route::view('create', 'store.create')->name('store.create');
-    Route::get('{store}/edit', [StoreController::class, 'edit'])->name('store.edit');
-    Route::get('{store}', [PromodisersController::class])->name('');
-    Route::get('{store}/view', [StoreController::class,'view'])->name('store.view');
+Route::middleware(['auth'])->group(function () {
+    Route::group(['prefix' => 'stores', 'as' => 'store.'], function () {
+        Route::get('/', [StoreController::class, 'index'])->name('index');
+    });
+
+    Route::group(['prefix' => 'promodisers', 'as' => 'promodisers.'], function () {
+        Route::get('/', [PromodiserController::class, 'index'])->name('index');
+    });
+
+    Route::group(['prefix' => 'test-upload', 'as' => 'test-upload.'], function () {
+        Route::get('/', [FileUploadController::class, 'index'])->name('index');
+        Route::post('/', [FileUploadController::class, 'upload'])->name('upload');
+        Route::get('store', [FileUploadController::class, 'view']);
+        Route::post('store', [FileUploadController::class, 'store'])->name('store');
+    });
+    Route::group(['prefix' => 'stores-upload', 'as' => 'stores-upload.'], function () {
+        Route::get('/', [StoreFileController::class, 'index'])->name('index');
+        Route::post('/', [StoreFileController::class, 'upload'])->name('upload');
+        Route::get('store', [StoreFileController::class, 'view']);
+        Route::post('store', [StoreFileController::class, 'store'])->name('store');
+    });
+    Route::group(['prefix' => 'promodisers-upload', 'as' => 'promodisers-upload.'], function () {
+        Route::get('/', [Promodiser_fileController::class, 'index'])->name('index');
+        Route::post('/', [Promodiser_fileController::class, 'upload'])->name('upload');
+        Route::get('store', [Promodiser_fileController::class, 'view']);
+        Route::post('store', [Promodiser_fileController::class, 'store'])->name('store');
+    });
+    // Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
+    //     Route::get('/', [SMSController::class, 'index'])->name('index');
+    //     Route::get('{smsapi}', [SMSController::class, 'show'])->name('show');
+    //     Route::post('create', [SMSController::class, 'create'])->name('create');
+    // });
 });
+    // Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
+    //     Route::get('/', [SMSController::class, 'index'])->name('index');
+    //     Route::get('{smsApi}', [SMSController::class, 'show'])->name('show');
+    //     Route::post('create', [SMSController::class, 'create'])->name('create');
+    // });
+// Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
+//     Route::get('/', [SMSController::class, 'index'])->name('index');
+//     Route::get('{smsapi}', [SMSController::class, 'show'])->name('show');
+//     Route::post('create', [SMSController::class, 'create'])->name('create');
+// });
 
-// localhost:8000/store/1/promodisers
 
+// Store drop-down
 Route::get('getStorelocation/{Storelocations}', function ($Storelocations) {
     // return response()->json(App\Models\Storelocation::all());
     $Storelocations = App\Models\Storelocation::where('id',$Storelocations)->get();
@@ -94,55 +129,24 @@ Route::get('getStoreGroup/{StoreGroup}', function ($StoreGroup) {
     $StoreGroup = App\Models\Storegroup::where('id',$StoreGroup)->get();
     return response()->json(['Group' => $StoreGroup]);
 });
-//ending//
-
-Route::group(['layout' => 'layouts.base', 'section' => 'body'], function () {
-    //
-Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
-});
-
-
-
-//Route::get('promodisers', PromodisersComponent::class)->name('promodisers');
-
-Route::get('test-upload', [FileUploadController::class, 'index'])->name('test-upload');
-Route::post('test-upload', [FileUploadController::class, 'upload'])->name('test-upload.upload');
-Route::get('test-upload/store', [FileUploadController::class, 'view']);
-Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('test-upload.store');
-
-
-
-//Route::post('test-upload/store', [FileUploadController::class, 'store'])->name('test-upload.store');
+//Ending of Store drop-down
 
 
 //Api Routes
 Route::get('/token',function(){
     return csrf_token();
 });
-// Route::get('EssAPI', function(){
-//     //return SMSApi::all();
-//     //  return view('EssAPI');
 
-// });
-
-Route::get('EssAPI', [SMSController::class, 'index']);
-
-Route::get('EssAPI/{id}', function($id) {
-    return SMSApi::find($id);
+Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
+    Route::get('/', [SMSController::class, 'index'])->name('index');
+    Route::get('{smsapi}', [SMSController::class, 'show'])->name('show');
+    Route::post('create', [SMSController::class, 'create'])->name('create');
 });
- Route::post('EssAPI/create', function(Request $request) {
-     //return SMSApi::create($request->all);
-     $data = $request->all();
-         return SMSApi::create([
-            'barcode_number' => $data['barcode_number'],
-            'Store_name' =>$data['Store_name'],
-            'Fullname' =>$data['Fullname'],
-        ]);
- });
 
 
 
-//  //Trial Export CSV file
-//  Route::get('/csv_file', [ItemMasterlistController::class, 'index']);
-//  Route::get('/csv_file/export', [CsvExportController::class, 'csv_export'])->name('export');
-//  Route::post('/csv_file/import', [CsvImportController::class, 'csv_import'])->name('import');
+// Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
+//     Route::get('/', [SMSController::class, 'index'])->name('index');
+//     Route::get('ess-api{smsapi}', [SMSController::class, 'show'])->name('show');
+//     Route::post('create', [SMSController::class, 'create'])->name('create');
+// });

@@ -197,4 +197,7 @@ return [
     ])->toArray(),
     'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 
+
+    Rap2hpoutre\FastExcel\Providers\FastExcelServiceProvider::class,
+    'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 ];

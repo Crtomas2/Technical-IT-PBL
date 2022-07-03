@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('promodisers', function (Blueprint $table) {
             $table->id();
-            $table->string('promodiser_id')->unique()->nullable();
             $table->string('Firstname');
             $table->string('Lastname');
             $table->string('Mobilenumber');

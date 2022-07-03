@@ -10,7 +10,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <form class="needs-validation" method="POST" action="{{ route('test-upload.upload') }}" enctype="multipart/form-data" novalidate>
+                <form class="needs-validation" method="POST" action="{{ route('promodisers-upload.upload') }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     <div class="relative p-4">
                         <div>
@@ -53,28 +53,28 @@
                         <tr height="50">
                             <th align="center" role="button">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Item No.</span>
+                                    <span>firstname</span>
                                 </div>
                             </th>
                             <th align="center" role="button">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Description</span>
+                                    <span>lastname</span>
                                 </div>
                             </th>
                             <th role="button" align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Item Division</span>
+                                    <span>location_code</span>
                                 </div>
                             </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
-                        @if($temp_data->count() > 0)
-                            @foreach($temp_data as $row)
+                        @if($promodisertemp_data->count() > 0)
+                            @foreach($promodisertemp_data as $row)
                             <tr>
-                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->item_number }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->description }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->item_division }}</td>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->firstname }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->lastname }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->location_code }}</td>
                             </tr>
                             @endforeach
                         @else
@@ -89,10 +89,9 @@
 
                 <div class="flex items-center justify-between px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
                     <div class="flex-1 px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        {{ $temp_data->links() }}
+                        {{$promodisertemp_data->links() }}
                     </div>
-                    
-                    <form action="{{ route('test-upload.store') }}" method="POST">
+                    <form action="{{ route('promodisers-upload.store') }}" method="POST">
                         @csrf
                         <x-jet-button>
                             Submit

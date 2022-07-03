@@ -24,6 +24,8 @@ class StoreItem extends Model
         'storeGroup'
     ];
 
+
+
     public function storeName()
     {
         return $this->belongsTo(Store::class, 'store_id');

@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('promodiser_assignations', function (Blueprint $table) {
+        Schema::create('promodiser_tables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('promodisers_id')->constrained('promodisers')->cascadeOnDelete();
-            $table->foreignId('location_codes_id')->constrained('location_codes')->cascadeOnDelete();
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('location_code');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promodiser_assignations');
+        Schema::dropIfExists('promodiser_tables');
     }
 };

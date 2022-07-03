@@ -20,6 +20,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Api
+Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
+    Route::get('/', [SMSController::class, 'index']);
+    Route::get('{smsapi}', [SMSController::class, 'show']);
+    Route::post('create', [SMSController::class, 'create']);
+});
+
+Route::get('test', function () {
+    return 'hi';
+});
+
+Route::post('test', function () {
+    return 'hello';
+});
+
 //API gateway
 //Route::get('/token',function(){
     //return csrf_token();

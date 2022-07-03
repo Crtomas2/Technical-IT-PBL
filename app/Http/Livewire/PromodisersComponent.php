@@ -14,7 +14,13 @@ class PromodisersComponent extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
+    protected $queryString = ['sortBy', 'sortDirection'];
+
+    /**
+     * Query Strings
+     */
+    public $sortBy = 'ID';
+    public $sortDirection = 'ASC';
 
     public $promodiser_id, $Firstname, $Lastname, $Mobilenumber,$Location_code, $promodiser_edit_id, $promodiser_delete_id;
     public $view_promodiser_id, $view_promodiser_Firstname, $view_promodiser_Lastname, $view_promodiser_Mobilenumber, $view_promodiser_Location_code;
@@ -22,6 +28,17 @@ class PromodisersComponent extends Component
     
     public $selectedPromodiser;
     public $assigned_location; // Used for assigning promodiser's location
+
+    public $locations = [];
+    public $selectedPromodiserLocationCode = '';
+
+    /**
+     * Modal Variables
+     */
+    public $showPromodiserEdit = false;
+    public $showPromodiserAssign = false;
+    public $showPromodiserCreate = false;
+    public $confirmingUserDeletion = false;
 
     //Input fields on update validation
     public function updated($fields)
@@ -35,55 +52,67 @@ class PromodisersComponent extends Component
         ]);
     }
 
+    /**
+     * Show Create Promodiser Modal
+     *
+     * @return void
+     */
+    public function createPromodiser()
+    {
+        $this->showPromodiserCreate = true;
+    }
+
+    /**
+     * Create new promodiser
+     *
+     * @return void
+     */
     public function storePromodiserData() 
     {
-        //on-form submit validation
-       $this->validate([
-        'promodiser_id' => 'required|unique:promodisers',
-        'Firstname'=> 'required|max:255',
-        'Lastname'=> 'required|max:255',
-        'Mobilenumber'=> 'required|numeric',
-       ]); 
-    
+        try {
+            $this->validate([
+                'Firstname'=> 'required|max:255',
+                'Lastname'=> 'required|max:255',
+                'Mobilenumber'=> 'required|numeric',
+            ]); 
 
-    //Add Promodiser Data
-    $promodiser =new Promodisers();
-    $promodiser->promodiser_id = $this->promodiser_id;
-    $promodiser->Firstname = $this->Firstname;
-    $promodiser->Lastname = $this->Lastname;
-    $promodiser->Mobilenumber = $this->Mobilenumber;
-    
-     
-    $promodiser->save();
-     
-    session()->flash('message','New Promo merchandiser has been added successfully');
+            //Add Promodiser Data
 
-    $this->promodiser_id ='';
-    $this->Firstname ='';
-    $this->Lastname ='';
-    $this->Mobilenumber ='';
-    $this->promodiser_edit_id ='';
-     
-    //For hide moadal after add promodiser successs
-    $this->dispatchBrowserEvent('close-modal');
+            DB::beginTransaction();
+
+            $promodiser = new Promodisers();
+            $promodiser->Firstname = $this->Firstname;
+            $promodiser->Lastname = $this->Lastname;
+            $promodiser->Mobilenumber = $this->Mobilenumber;
+            
+            $promodiser->save();
+
+            DB::commit();
+            
+            session()->flash('flash.banner','New Promo merchandiser has been added successfully');
+            session()->flash('flash.bannerStyle', 'success');
+
+            $this->reset();
+            $this->resetValidation();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
     }
 
-    public function resetInputs()
+    public function cancelAdd ()
     {
-        $this->promodiser_id ='';
-        $this->Firstname ='';
-        $this->Lastname ='';
-        $this->Mobilenumber ='';
-        $this->promodiser_edit_id ='';
+        $this->showPromodiserCreate = false;
     }
+    /**
+     * Edit Promodiser Data
+     *
+     * @param $id
+     * @return void
+     */
+    public function editPromodiser($id)
+    {
+        $this->showPromodiserEdit = true;
 
-    public function close()
-    {
-        $this->resetInputs();
-    }
-  
-    public function editPromodisers($id)
-    {
         $promodiser = Promodisers::where('id',$id)->first();
 
         $this->promodiser_edit_id = $promodiser->id;
@@ -91,59 +120,90 @@ class PromodisersComponent extends Component
         $this->Firstname = $promodiser->Firstname;
         $this->Lastname = $promodiser->Lastname;
         $this->Mobilenumber = $promodiser->Mobilenumber;
-       
-
-        $this->dispatchBrowserEvent('show-edit-promodiser-modal');
     }    
 
+    /**
+     * Submit edit for promodiser
+     *
+     * @return void
+     */
     public function editPromodiserData()
     {
-        //on-form submit validation
-        $this->validate([
-         'promodiser_id'=> 'required|unique:promodisers,promodiser_id,'.$this->promodiser_edit_id.'',   
-         'Firstname'=> 'required|max:255',
-         'Lastname'=> 'required|max:255',
-         'Mobilenumber'=> 'required|numeric',   
-        ]);
+        try {
+            $this->validate([
+                'promodiser_id'=> 'required|unique:promodisers,promodiser_id,'.$this->promodiser_edit_id.'',   
+                'Firstname'=> 'required|max:255',
+                'Lastname'=> 'required|max:255',
+                'Mobilenumber'=> 'required|numeric'
+            ]);
 
-       $promodiser = Promodisers::where('id',$this->promodiser_edit_id)->first(); 
-       $promodiser->promodiser_id = $this->promodiser_id;
-       $promodiser->Firstname =$this->Firstname;
-       $promodiser->Lastname =$this->Lastname;
-       $promodiser->Mobilenumber =$this->Mobilenumber;
+            $promodiser = Promodisers::where('id',$this->promodiser_edit_id)->first(); 
+            $promodiser->promodiser_id = $this->promodiser_id;
+            $promodiser->Firstname = $this->Firstname;
+            $promodiser->Lastname = $this->Lastname;
+            $promodiser->Mobilenumber = $this->Mobilenumber;
+            $promodiser->save();
 
-       $promodiser->save();
+            $this->showPromodiserEdit = false;
 
-       session()->flash('message', 'Promodiser has been updated successfully');
+            session()->flash('flash.banner', 'Saved.');
+            session()->flash('flash.bannerStyle', 'success');
 
-       //For hide modal after add promodiser success
-       $this->dispatchBrowserEvent('close-modal');
-    } 
-
-    //Delete Confirmation
-    public function deleteConfirmation($id)
-    {
-        $this->promodiser_delete_id = $id;
-
-        $this->dispatchBrowserEvent('show-delete-confirmation-modal');
+        } catch (\Exception $e) {
+        }
     }
 
-    public function deletePromodiserData()
+    /**
+     * Cancel Edit
+     *
+     * @return void
+     */
+    public function cancelEdit()
+    {
+        $this->showPromodiserEdit = false;
+
+        $this->reset();
+    }
+
+    /**
+     * Confirm Deletion of Promodiser
+     *
+     * @param $id
+     * @return void
+     */
+    public function deleteConfirmation($id)
+    {
+        $this->confirmingUserDeletion = true;
+        $this->promodiser_delete_id = $id;
+    }
+
+    /**
+     * Initiate deletion of Promodiser
+     *
+     * @return void
+     */
+    public function confirmDelete()
     {
         $promodiser = Promodisers::where('id', $this->promodiser_delete_id)->first();
+        // $promodiser->assignments()->delete();
         $promodiser->delete();
         
         
         session()->flash('message','Promodiser has been deleted successfully');
 
-        $this->dispatchBrowserEvent('close-modal');
-
-        $this->promodiser_delete_id = '';
+        $this->reset();
+        $this->resetValidation();
     }
 
-    public function cancel()
+    /**
+     * Cancel Deletion modal
+     *
+     * @return void
+     */
+    public function cancelDelete()
     {
-        $this->promodiser_delete_id ='';
+        $this->confirmingUserDeletion = false;
+        $this->promodiser_delete_id = null;
     }
 
     public function viewPromodiserDetails($id)
@@ -165,42 +225,60 @@ class PromodisersComponent extends Component
      
     }
 
-    public function showAssignPromodiser($id)
-    {
-        $promodiser = Promodisers::with('latest_assignment.location')->find($id);
-
-        // dd($promodiser->latest_assignment->location->LocationCode);
-
-        $this->selectedPromodiser = $promodiser;
-
-        $this->dispatchBrowserEvent('assign-promodiser-modal');
-    }
-
+    /**
+     * Show Assign Promodiser Modal
+     *
+     * @param $id
+     * @return void
+     */
     public function assignPromodiser($id)
     {
-        // Reset values
-        $this->resetValidation();
+        $this->showPromodiserAssign = true;
 
-        $location = LocationCode::where('LocationCode', $this->assigned_location)->first();
+        $promodiser = Promodisers::with('latest_assignment.location')->find($id);
 
-        $this->assigned_location = null;
+        $this->locations = LocationCode::get()->pluck('LocationCode', 'id');
 
-        if(!$location) {
-            return $this->addError('assigned_location', 'The location code is invalid.');
-        }
+        $this->selectedPromodiserLocationCode = $promodiser && $promodiser->latest_assignment ? $promodiser->latest_assignment->location->LocationCode : 'none';
+
+        $this->selectedPromodiser = $promodiser;
+    }
+
+    /**
+     * Assign Promodiser to a Store
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function assignPromodiserData()
+    {
+        $this->validate([
+            'assigned_location' => ['required']
+        ]);
+
+        $location = LocationCode::find($this->assigned_location);
 
         try {
             DB::beginTransaction();
 
-            $promodiserAssignment = PromodiserAssignation::create([
-                'promodisers_id' => Promodisers::find($id)->id,
+            $promodiserAssignment = $this->selectedPromodiser->assignments()->create([
                 'location_codes_id' => $location->id
             ]);
 
+            // $promodiserAssignment = PromodiserAssignation::create([
+            //     'promodisers_id' => Promodisers::find($id)->id,
+            //     'location_codes_id' => $location->id
+            // ]);
+
             DB::commit();
 
-            $this->dispatchBrowserEvent('hide-assign-promodiser-modal');
-            $this->selectedPromodiser = null;
+            $this->showPromodiserAssign = false;
+
+            $this->reset();
+
+            session()->flash('flash.banner', 'Promodiser assigned succesfully!');
+            session()->flash('flash.bannerStyle', 'success');
+
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -209,20 +287,45 @@ class PromodisersComponent extends Component
         }
     }
 
+    public function cancelAssign()
+    {
+        $this->reset();
+        $this->resetValidation();
+
+        $this->showPromodiserAssign = false;
+    }
+
+    public function setSort($query, $direction)
+    {
+        $this->sortBy = $query;
+        $this->sortDirection = $direction;
+
+        // dd(Promodisers::with('latest_assignment')->first());
+    }
 
     public function render()
     {
-        //Get all students
-       $promodisers = Promodisers::where('Firstname','like', '%'.$this->searchTerm.'%')
+        $promodisers = Promodisers::with('latest_assignment.location')
+            ->where('Firstname','like', '%'.$this->searchTerm.'%')
             ->orWhere('Lastname', 'like','%' .$this->searchTerm.'%')
-            ->orWhere('Mobilenumber','like', '%' .$this->searchTerm.'%')
-            ->orWhere('promodiser_id','like', '%'.$this->searchTerm.'%')
-            // ->orWhere('Location_code','like', '%' .$this->searchTerm.'%')
-            ->paginate(6); 
+            ->orWhere('Mobilenumber','like', '%' .$this->searchTerm.'%');
+
+        if($this->sortBy === 'LocationCode') {
+            $promodisers = $promodisers->select('promodisers.*')
+                ->leftJoin('promodiser_assignations', 'promodiser_assignations.promodisers_id', '=', 'promodisers.id')
+                ->whereNull('promodiser_assignations.promodisers_id')
+                ->orderBy('promodiser_assignations.promodisers_id', $this->sortDirection);
+        } else {
+            $promodisers = $promodisers->orderBy($this->sortBy, $this->sortDirection);
+        }
+
+        $promodisers = $promodisers->paginate(6);
 
         return view('livewire.promodisers-component', compact('promodisers'))
             ->layout('livewire.layouts.base');
     }
 }
+
+
 
 

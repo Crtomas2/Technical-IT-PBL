@@ -22,6 +22,10 @@ class StoreDropdown extends Component
     public $selectedStoreName, $selectedStoreLocation, $selectedLocationCode, $selectedStoreGroup;
     public $storeNames = [], $storeLocations = [], $locationCodes = [], $storeGroups = [];
 
+    protected $listeners = [
+        'createStore' => 'submit',
+        'hideStoreCreateModal' => 'hideStoreCreate'
+    ];
     /*
     |--------------------------------------------------------------
     | When values change
@@ -52,6 +56,19 @@ class StoreDropdown extends Component
         $this->locationCodes = LocationCode::where('id', $this->selectedStoreLocation)->get();
     }
 
+    public function hideStoreCreate()
+    {
+        $this->reset([
+            'selectedStoreName',
+            'selectedStoreLocation',
+            'selectedLocationCode',
+            'selectedStoreGroup',
+            'storeLocations',
+            'locationCodes',
+            'storeGroups',
+        ]);
+    }
+
     public function submit()
     {
         try {
@@ -66,11 +83,18 @@ class StoreDropdown extends Component
 
             DB::commit();
 
-            Redirect::to(route('store.index'));
+            $this->emit('hideStoreCreate');
+
+            $this->resetValidation();
+
+            return redirect()->back()
+                ->with('flash.banner', 'Store created successfully!')
+                ->with('flash.bannerStyle', 'success');
         } catch (\Exception $e) {
             DB::rollback();
 
-            return response()->json(['message' => $e->getMessage()]);
+            session()->flash('flash.banner', 'Failed to create Store!');
+            session()->flash('flash.bannerStyle', 'danger');
         }
     }
 
