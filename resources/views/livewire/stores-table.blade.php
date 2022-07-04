@@ -107,9 +107,9 @@
                             <tr>
                                 <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $store->id }}</td>
                                 <td class="border-b border-slate-200 p-4 pl-8">{{ $store->storeName->Storename }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $store->storeLocation->Storelocations }}</td>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $store->storeLocation->Storelocations }}</td>
                                 <td class="border-b border-slate-200 p-4 pl-8">{{ $store->locationCode->LocationCode }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{  $store->storeGroup->StoreGroup }}</td>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{  $store->storeGroup->StoreGroup }}</td>
                                 <td align="right">
                                     <div class="flex">
                                         {{-- <button type="button" wire:click.prevent="showStore({{$store->id}})" class="btn btn-primary ml-2" data-toggle="modal" data-target="#showModal">View</button> --}}

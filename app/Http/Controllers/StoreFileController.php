@@ -36,7 +36,8 @@ class StoreFileController extends Controller
                     'storename' => $line['storename'],
                     'storelocation' => $line['storelocation'],
                     'location_code' =>$line['location_code'],
-                    'store_group' => $line['store_group'],
+                    'store_group' =>$line['store_group'],
+
                 ]);
             });
 
@@ -80,7 +81,7 @@ class StoreFileController extends Controller
             DB::beginTransaction();
 
             if($storetemp_data->count() >= $chunkSize) {
-                foreach($storetemp_data->chunk($chunkSize) as $chunk) {
+                foreach($storetemp_data ->chunk($chunkSize) as $chunk) {
                     // dd(true, $chunk);
                     foreach($chunk as $row) {
                         // dd($row);
@@ -112,10 +113,10 @@ class StoreFileController extends Controller
 
    
            // Remove the current data on 'temp_data' table after successful insertion
-           TempData::truncate();
+            StoreTempData::truncate();
    
            // Return a message to user if rows are added successfully
-           session()->flash('flash.banner', $storetemp_data_count . ' rows were added successfully.');
+           session()->flash('flash.banner',$storetemp_data_count . ' rows were added successfully.');
            session()->flash('flash.bannerStyle', 'success');
 
            return redirect()->route('stores-upload.index');
