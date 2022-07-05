@@ -17,10 +17,10 @@ class VerifyCsrfToken extends Middleware
         //
         // 'http://edgescanner.herokuapp.coEssAPI/create'
 
-        'register/*',
-        'http://edgescanner.herokuapp.com/register',
-        'http://edgescanner.herokuapp.com/login',
-        'http://edgescanner.herokuapp.com/dashboard',
+        // 'register/*',
+        // 'http://edgescanner.herokuapp.com/register',
+        // 'http://edgescanner.herokuapp.com/login',
+        // 'http://edgescanner.herokuapp.com/dashboard',
         
 
     ];
