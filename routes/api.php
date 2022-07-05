@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
     Route::get('/', [SMSController::class, 'index']);
     Route::get('{smsapi}', [SMSController::class, 'show']);
-    Route::post('create', [SMSController::class, 'create']);
+    Route::post('/', [SMSController::class, 'create']);
 });
 
 Route::get('test', function () {
