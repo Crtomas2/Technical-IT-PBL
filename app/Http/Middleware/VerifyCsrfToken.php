@@ -19,8 +19,9 @@ class VerifyCsrfToken extends Middleware
 
         'dashboard/*',
         'register/*',
-        'http://edgescanner.herokuapp.com/register/',
-        'http://edgescanner.herokuapp.com/dasboard/',
+        'http://edgescanner.herokuapp.com/register',
+        'http://edgescanner.herokuapp.com/login',
+        ''
 
     ];
 }
