@@ -140,7 +140,7 @@ Route::get('/token',function(){
 Route::group(['prefix' => 'ess-api', 'as' => 'ess-api.'], function () {
     Route::get('/', [SMSController::class, 'index'])->name('index');
     Route::get('{smsapi}', [SMSController::class, 'show'])->name('show');
-    Route::post('/', [SMSController::class, 'create'])->name('create');
+    Route::post('{smsapi}', [SMSController::class, 'create'])->name('create');
 });
 
 
