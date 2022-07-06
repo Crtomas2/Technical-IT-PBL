@@ -11,7 +11,10 @@ class StoresTable extends Component
 {
     use WithPagination;
 
-    protected $queryString = ['sortBy', 'sortDirection'];
+    protected $queryString = [
+        'sortBy', 
+        'sortDirection'
+    ];
     
     public $currentStore = null;
 

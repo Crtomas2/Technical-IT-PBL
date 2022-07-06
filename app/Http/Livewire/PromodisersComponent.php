@@ -14,7 +14,11 @@ class PromodisersComponent extends Component
 {
     use WithPagination;
 
-    protected $queryString = ['sortBy', 'sortDirection'];
+    protected $queryString = [
+        'searchTerm' => ['as' => 'q'],
+        'sortBy', 
+        'sortDirection'
+    ];
 
     /**
      * Query Strings
@@ -113,10 +117,9 @@ class PromodisersComponent extends Component
     {
         $this->showPromodiserEdit = true;
 
-        $promodiser = Promodisers::where('id',$id)->first();
+        $promodiser = Promodisers::findOrFail($id);
 
-        $this->promodiser_edit_id = $promodiser->id;
-        $this->promodiser_id = $promodiser->promodiser_id;
+        $this->promodiser_id = $promodiser->id;
         $this->Firstname = $promodiser->Firstname;
         $this->Lastname = $promodiser->Lastname;
         $this->Mobilenumber = $promodiser->Mobilenumber;
@@ -130,15 +133,17 @@ class PromodisersComponent extends Component
     public function editPromodiserData()
     {
         try {
-            $this->validate([
-                'promodiser_id'=> 'required|unique:promodisers,promodiser_id,'.$this->promodiser_edit_id.'',   
-                'Firstname'=> 'required|max:255',
-                'Lastname'=> 'required|max:255',
-                'Mobilenumber'=> 'required|numeric'
+            $this->validate([  
+                'promodiser_id' => ['required'] ,
+                'Firstname'=> ['required', 'max:191'],
+                'Lastname'=> ['required', 'max:191'],
+                'Mobilenumber'=> ['required', 'numeric']
             ]);
 
-            $promodiser = Promodisers::where('id',$this->promodiser_edit_id)->first(); 
-            $promodiser->promodiser_id = $this->promodiser_id;
+            $promodiser = Promodisers::where('id',$this->promodiser_id)->firstOrFail(); 
+            
+            // dd($promodiser);
+            
             $promodiser->Firstname = $this->Firstname;
             $promodiser->Lastname = $this->Lastname;
             $promodiser->Mobilenumber = $this->Mobilenumber;
@@ -150,6 +155,7 @@ class PromodisersComponent extends Component
             session()->flash('flash.bannerStyle', 'success');
 
         } catch (\Exception $e) {
+            dd($e->getMessage());
         }
     }
 
