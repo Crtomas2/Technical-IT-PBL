@@ -186,7 +186,7 @@
             <form wire:submit="editPromodiserData()">
                 <div class="flex flex-col">
                     <div class="w-full mb-3">
-                        <x-jet-label for="current_assignment">Current assignment: (Last Assigned: {{ $selectedPromodiser ? $selectedPromodiser->latest_assignment->created_at->diffForHumans() : null }})</x-jet-label>
+                        <x-jet-label for="current_assignment">Current assignment: {{  $selectedPromodiser && $selectedPromodiser->latest_assignment ? 'Last Assigned: (' .  $selectedPromodiser->latest_assignment->created_at->diffForHumans() . ')' : null }} </x-jet-label>
                         <x-jet-input type="text" class="w-full mb-2" id="current_assignment" value="{{ $selectedPromodiserLocationCode }}" disabled />
                     </div>
 
