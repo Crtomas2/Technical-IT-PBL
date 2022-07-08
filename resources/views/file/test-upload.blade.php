@@ -21,7 +21,7 @@
                                     </label><br>
 
                                     <small id="fileHelpBlock" class="form-text text-muted">
-                                        File must be a excel file (XLSX) or a comma-delimited value file (CSV)
+                                        The file must be an excel file (XLSX) or a comma-delimited value file (CSV)
                                     </small>
                                 </div>
                                 <div class="flex-1">
