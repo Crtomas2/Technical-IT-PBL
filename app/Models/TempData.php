@@ -9,8 +9,11 @@ class TempData extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'item_number',
-        'description',
-        'item_division' 
+        'barcode_number',
+        'color',
+        'size_code',
+        'unit_measure',
+        'barcode_class'
+
     ];
 }

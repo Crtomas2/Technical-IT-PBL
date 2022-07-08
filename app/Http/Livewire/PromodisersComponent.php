@@ -325,7 +325,7 @@ class PromodisersComponent extends Component
             $promodisers = $promodisers->orderBy($this->sortBy, $this->sortDirection);
         }
 
-        $promodisers = $promodisers->paginate(6);
+        $promodisers = $promodisers->paginate(4);
 
         return view('livewire.promodisers-component', compact('promodisers'))
             ->layout('livewire.layouts.base');

@@ -25,7 +25,7 @@
                         {{ __('Upload') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('ess-api.index') }}" :active="request()->routeIs('ess-api.*')">
-                        {{ __('API') }}
+                        {{ __('Sales Data Lists') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('stores-upload.index') }}" :active="request()->routeIs('stores-upload.*')">
                         {{ __('Store Files') }}

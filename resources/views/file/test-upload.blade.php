@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Upload a File') }}
+                {{ __('Upload a File on Item Masterlists') }}
             </h2>
         </div>
     </x-slot>
@@ -53,17 +53,27 @@
                         <tr height="50">
                             <th align="center" role="button">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Item No.</span>
+                                    <span>Barcode No.</span>
                                 </div>
                             </th>
                             <th align="center" role="button">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Description</span>
+                                    <span>Color</span>
                                 </div>
                             </th>
                             <th role="button" align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Item Division</span>
+                                    <span>Size Code</span>
+                                </div>
+                            </th>
+                            <th role="button" align="center">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Unit of Measure Code</span>
+                                </div>
+                            </th>
+                            <th role="button" align="center">
+                                <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
+                                    <span>Barcode Class</span>
                                 </div>
                             </th>
                         </tr>
@@ -72,9 +82,11 @@
                         @if($temp_data->count() > 0)
                             @foreach($temp_data as $row)
                             <tr>
-                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->item_number }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->description }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->item_division }}</td>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->barcode_number }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->color }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->size_code }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->unit_measure }}</td>
+                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->barcode_class }}</td>
                             </tr>
                             @endforeach
                         @else

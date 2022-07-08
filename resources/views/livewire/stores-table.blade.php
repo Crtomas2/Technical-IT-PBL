@@ -16,22 +16,7 @@
                     <table class="table-auto overflow-scroll w-full max-w-full px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
                         <thead class="px-4 py-3 bg-gray-200 text-right sm:px-6 border-b sm:rounded-bl-md sm:rounded-br-md">
                             <tr height="50">
-                                <th align="center" role="button" wire:click="setSort('id','{{ $sortBy === 'id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC'}}')">
-                                    <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                        <span>ID</span>
-                                        @if($sortBy)
-                                            @if($sortBy === 'id')
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="height: 16px; width: 16px;">
-                                                    @if($sortDirection === 'ASC')
-                                                        <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                                    @else
-                                                        <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                                    @endif
-                                                </svg>
-                                            @endif
-                                        @endif
-                                    </div>
-                                </th>
+                                
                                 <th align="center" role="button" wire:click="setSort('store_id', '{{ $sortBy === 'store_id' && $sortDirection === 'ASC' ? 'DESC' : 'ASC'}}')">
                                     <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
                                         <span>Store Name</span>
@@ -105,7 +90,7 @@
                             @if($stores->count() > 0)
                                 @foreach($stores as $store)
                                 <tr>
-                                    <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $store->id }}</td>
+                                    {{-- <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $store->id }}</td> --}}
                                     <td class="border-b border-slate-200 p-4 pl-8">{{ $store->storeName->Storename }}</td>
                                     <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $store->storeLocation->Storelocations }}</td>
                                     <td class="border-b border-slate-200 p-4 pl-8">{{ $store->locationCode->LocationCode }}</td>

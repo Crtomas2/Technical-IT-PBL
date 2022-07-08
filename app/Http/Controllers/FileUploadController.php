@@ -30,9 +30,11 @@ class FileUploadController extends Controller
             // Insert new rows to the 'temp_data' table
             $collection = (new FastExcel())->import($request->file, function ($line) {
                 return TempData::create([
-                    'item_number' => $line['item_number'],
-                    'description' => $line['description'],
-                    'item_division' =>$line['item_division'],
+                    'barcode_number' => $line['barcode_number'],
+                    'color' => $line['color'],
+                    'size_code' =>$line['size_code'],
+                    'unit_measure' =>$line['unit_measure'],
+                    'barcode_class' =>$line['barcode_class'],
                 ]);
             });
 
@@ -81,9 +83,12 @@ class FileUploadController extends Controller
                     foreach($chunk as $row) {
                         // dd($row);
                         NewTable::insert([
-                            'item_number' => $row->item_number,
-                            'description' => $row->description,
-                            'item_division'=>$row->item_division,
+                            'barcode_number' => $row->barcode_number,
+                            'color' => $row->color,
+                            'size_code'=>$row->size_code,
+                            'unit_measure'=>$row->unit_measure,
+                            'barcode_class'=>$row->barcode_class,
+
                         ]);
                         // dispatch(new FileUploadJob($row));
                     }
@@ -92,9 +97,11 @@ class FileUploadController extends Controller
                 foreach($temp_data as $row) {
                     //dd('else', $row);
                     NewTable::insert([
-                        'item_number' => $row->item_number,
-                        'description' => $row->description,
-                        'item_division' => $row->item_division
+                        'barcode_number' => $row->barcode_number,
+                        'color' => $row->color,
+                        'size_code' => $row->size_code,
+                        'unit_measure' => $row->unit_measure,
+                        'barcode_class' => $row->barcode_class
                     ]);
                 }
             }
