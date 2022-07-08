@@ -21,17 +21,17 @@
                     <x-jet-nav-link href="{{ route('promodisers.index') }}" :active="request()->routeIs('promodisers.*')">
                         {{ __('Promodisers') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('test-upload.index') }}" :active="request()->routeIs('test-upload.*')">
-                        {{ __('Upload') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('ess-api.index') }}" :active="request()->routeIs('ess-api.*')">
                         {{ __('Sales Data Lists') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('test-upload.index') }}" :active="request()->routeIs('test-upload.*')">
+                        {{ __('Upload Items') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('stores-upload.index') }}" :active="request()->routeIs('stores-upload.*')">
-                        {{ __('Store Files') }}
+                        {{ __('Upload Stores') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('promodisers-upload.index') }}" :active="request()->routeIs('promodisers-upload.*')">
-                        {{ __('Promodisers Files') }}
+                        {{ __('Upload Promodisers') }}
                     </x-jet-nav-link>
                 </div>
             </div>
