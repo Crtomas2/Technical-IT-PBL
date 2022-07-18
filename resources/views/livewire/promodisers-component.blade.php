@@ -7,6 +7,13 @@
                 </div>
             @endif
         </div>
+        
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mb-4 flex items-center justify-end">
+                <livewire:export-button :model="\App\Models\Promodisers::class" filetype="xlsx" filename="promodisers_component" />
+            </div>
+        </div>
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="flex items-center justify-between space-x-4 px-4 py-5">

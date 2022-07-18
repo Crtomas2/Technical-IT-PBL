@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\NewTable;
 use App\Models\SMSApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,6 +70,14 @@ class SMSController extends Controller
        $smsapi = SMSApi::save();
 
        return response()->json($request,201);
+
+       $request->validate([
+        'barcode_number' => ['required', 'news_tables,barcode_number']
+       ]);
+        
+       $barcode_number = NewTable::where('barcode_number', $request->input('barcode_number'))->first();
+        
+       
     }
        
 }

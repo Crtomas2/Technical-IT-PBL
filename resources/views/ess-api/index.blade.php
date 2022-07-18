@@ -14,13 +14,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mb-4 flex items-center justify-end">
+                <livewire:export-button :model="\App\Models\SMSAPI::class" filetype="xlsx" />
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <table class="table-auto px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md w-full">
                     <thead class="px-4 py-3 bg-gray-200 text-right sm:px-6 border-b sm:rounded-bl-md sm:rounded-br-md">
                         <tr height="50">
                             <th align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>Item Code</span>
+                                    <span>Barcode No.</span>
                                 </div>
                             </th>
                             {{-- <th align="center">
