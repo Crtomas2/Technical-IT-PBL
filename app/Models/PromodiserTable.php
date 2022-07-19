@@ -11,6 +11,6 @@ class PromodiserTable extends Model
     protected $fillable = [
         'firstname',
         'lastname',
-        'location_code',
+        'mobile_number',
     ];
 }

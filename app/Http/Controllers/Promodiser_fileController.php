@@ -35,7 +35,7 @@ class Promodiser_fileController extends Controller
                 return Promodiser_tempdata::create([
                     'firstname' => $line['firstname'],
                     'lastname' => $line['lastname'],
-                    'location_code' =>$line['location_code'],
+                    'mobile_number' =>$line['mobile_number'],
                 ]);
             });
 
@@ -86,7 +86,7 @@ class Promodiser_fileController extends Controller
                         PromodiserTable::insert([
                             'firstname' => $row->firstname,
                             'lastname' => $row->lastname,
-                            'location_code'=>$row->location_code,
+                            'mobile_number'=>$row->mobile_number,
                         ]);
                         // dispatch(new FileUploadJob($row));
                     }
@@ -97,7 +97,7 @@ class Promodiser_fileController extends Controller
                     PromodiserTable::insert([
                         'firstname' => $row->firstname,
                         'lastname' => $row->lastname,
-                        'location_code'=>$row->location_code,
+                        'mobile_number'=>$row->mobile_number,
                     ]);
                 }
             }

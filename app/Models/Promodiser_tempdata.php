@@ -11,6 +11,6 @@ class Promodiser_tempdata extends Model
     protected $fillable = [
         'firstname',
         'lastname',
-        'location_code',
+        'mobile_number',
     ];
 }

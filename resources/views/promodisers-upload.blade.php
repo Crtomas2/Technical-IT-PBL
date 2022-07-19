@@ -53,17 +53,17 @@
                         <tr height="50">
                             <th align="center" role="button">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>firstname</span>
+                                    <span>Firstname</span>
                                 </div>
                             </th>
                             <th align="center" role="button">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>lastname</span>
+                                    <span>Lastname</span>
                                 </div>
                             </th>
                             <th role="button" align="center">
                                 <div class="flex items-center justify-center space-x-4 py-2 pl-8 pr-4">
-                                    <span>location_code</span>
+                                    <span>Mobile No.</span>
                                 </div>
                             </th>
                         </tr>
@@ -73,8 +73,8 @@
                             @foreach($promodisertemp_data as $row)
                             <tr>
                                 <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->firstname }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->lastname }}</td>
-                                <td class="border-b border-slate-200 p-4 pl-8">{{ $row->location_code }}</td>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->lastname }}</td>
+                                <td align="center" class="border-b border-slate-200 p-4 pl-8">{{ $row->mobile_number }}</td>
                             </tr>
                             @endforeach
                         @else
