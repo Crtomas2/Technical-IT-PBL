@@ -15,7 +15,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-4 flex items-center justify-end">
-                <livewire:export-button :model="\App\Models\SMSAPI::class" filetype="xlsx" />
+                <livewire:export-button :model="\App\Models\SMSAPI::class" filetype="csv" />
             </div>
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

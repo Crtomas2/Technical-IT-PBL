@@ -25,7 +25,7 @@ class SMSApiFactory extends Factory
     public function definition()
     {
         return [
-            'barcode_number' => '9' . rand(000000000000,999999999999)
+            'barcode_number' => '9' . rand(000000000000000000,999999999999999999)
         ];
     }
 }

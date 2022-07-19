@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('s_m_s_apis', function (Blueprint $table) {
             $table->id();
             $table->string('barcode_number')->nullable();
-            // $table->string('Store_name')->nullable();
+            // $table->string('location_code')->nullable();
             // $table->string('Fullname')->nullable();
             $table->timestamps();
         });
