@@ -13,4 +13,22 @@ class PromodiserTable extends Model
         'lastname',
         'mobile_number',
     ];
+
+    /**
+     * Get the related location assignment
+     * 
+     * 
+     */
+    public function assignments()
+    {
+        return $this->hasMany(PromodiserAssignation::class);
+    }
+
+    /**
+     * Get the latest location assignment
+     */
+    public function latest_assignment()
+    {
+        return $this->hasOne(PromodiserAssignation::class)->latest();
+    }
 }

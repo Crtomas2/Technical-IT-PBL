@@ -39,10 +39,15 @@ class PromodisersComponent extends Component
     /**
      * Modal Variables
      */
+    public $showPromodiserImport = false;
     public $showPromodiserEdit = false;
     public $showPromodiserAssign = false;
     public $showPromodiserCreate = false;
     public $confirmingUserDeletion = false;
+
+    protected $listeners = [
+        'tempDataUploaded' => 'render'
+    ];
 
     //Input fields on update validation
     public function updated($fields)

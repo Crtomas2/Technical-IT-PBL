@@ -16,9 +16,15 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="flex items-center justify-between space-x-4 px-4 py-5">
+                <div class="flex items-center space-x-4 px-4 py-5">
                     <x-jet-input type="text" class="block mt-1" wire:model="searchTerm" placeholder="Search" />
-                    <x-jet-button wire:click="createPromodiser()">Create</x-jet-button>
+                    <div class="flex-1"></div>
+                    <div class="flex-none">
+                        <x-jet-button wire:click="$emit('toggleImport', true)">Import</x-jet-button>
+                    </div>
+                    <div class="flex-none">
+                        <x-jet-button wire:click="createPromodiser()">Create</x-jet-button>
+                    </div>
                 </div>
                 <div class="relative max-w-full overflow-x-scroll">
                     <table class="table-auto overflow-scroll w-full max-w-full px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
@@ -128,6 +134,10 @@
             </div>
         </div>
     </div>
+
+    <!-- start: Import -->
+    <livewire:promodisers.import />
+    <!-- end: Import -->
 
     <!-- start: Create -->
     <x-jet-dialog-modal wire:model="showPromodiserCreate">
