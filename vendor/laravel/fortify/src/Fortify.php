@@ -4,7 +4,6 @@ namespace Laravel\Fortify;
 
 use Laravel\Fortify\Contracts\ConfirmPasswordViewResponse;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Fortify\Contracts\PromodiserUser;
 use Laravel\Fortify\Contracts\LoginViewResponse;
 use Laravel\Fortify\Contracts\RegisterViewResponse;
 use Laravel\Fortify\Contracts\RequestPasswordResetLinkViewResponse;

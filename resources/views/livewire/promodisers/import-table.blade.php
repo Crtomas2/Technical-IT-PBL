@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            @if(!empty($promodisers))
+            @if($promodisers->count() > 0)
             @foreach($promodisers as $item)
             <tr>
                 <td>
@@ -40,6 +40,14 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr>
+                <td colspan="4">
+                    <div class="px-4 py-3 text-center">
+                        No data yet.
+                    </div>
+                </td>
+            </tr>
             @endif
         </tbody>
     </table>

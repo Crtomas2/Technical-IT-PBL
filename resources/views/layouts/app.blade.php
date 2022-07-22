@@ -16,12 +16,14 @@
         @livewireStyles
 
         <!-- Scripts -->
+        @wireUiScripts
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
 
         <div class="min-h-screen bg-gray-100">
+            <x-notifications z-index="z-10"/>
             @livewire('navigation-menu')
 
             <!-- Page Heading -->

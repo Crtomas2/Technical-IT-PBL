@@ -94,7 +94,7 @@ class NewCommand extends Command
 
         if ($directory != '.' && $input->getOption('force')) {
             if (PHP_OS_FAMILY == 'Windows') {
-                array_unshift($commands, "rd /s /q \"$directory\"");
+                array_unshift($commands, "(if exist \"$directory\" rd /s /q \"$directory\")");
             } else {
                 array_unshift($commands, "rm -rf \"$directory\"");
             }
@@ -176,7 +176,7 @@ class NewCommand extends Command
         $commands = array_filter([
             $this->findComposer().' require laravel/jetstream',
             trim(sprintf(PHP_BINARY.' artisan jetstream:install %s %s', $stack, $teams ? '--teams' : '')),
-            'npm install && npm run dev',
+            'npm install && npm run build',
             PHP_BINARY.' artisan storage:link',
         ]);
 

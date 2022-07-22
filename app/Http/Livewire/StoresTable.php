@@ -22,7 +22,8 @@ class StoresTable extends Component
         'updatedStore' => 'mount',
         'deletedStore' => 'mount',
         'showCreate' => 'create',
-        'hideStoreCreate' => 'hideStoreCreate'
+        'hideStoreCreate' => 'hideStoreCreate',
+        'tempDataUploaded' => 'render'
     ];
 
     /**

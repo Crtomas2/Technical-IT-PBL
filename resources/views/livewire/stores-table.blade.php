@@ -9,7 +9,8 @@
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="flex items-center justify-end px-4 py-5">
+                <div class="flex items-center justify-end px-4 py-5 space-x-2">
+                    <x-jet-button wire:click="$emit('toggleImport', true)">Import</x-jet-button>
                     <x-jet-button wire:click="create()">Create</x-jet-button>
                 </div>
                 <div class="relative max-w-full overflow-x-scroll">
@@ -124,6 +125,10 @@
             </div>
         </div>
     </div>
+
+    <!-- start: Import -->
+    <livewire:stores.import />
+    <!-- end: Import -->
 
     <!-- start: Edit -->
     <x-jet-dialog-modal wire:model="showStoreCreate">

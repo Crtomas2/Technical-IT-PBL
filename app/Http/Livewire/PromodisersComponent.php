@@ -9,10 +9,11 @@ use App\Models\Promodisers;
 use App\Models\LocationCode;
 use App\Models\PromodiserAssignation;
 use Illuminate\Support\Facades\DB;
+use WireUi\Traits\Actions;
 
 class PromodisersComponent extends Component
 {
-    use WithPagination;
+    use WithPagination, Actions;
 
     protected $queryString = [
         'searchTerm' => ['as' => 'q'],
@@ -97,9 +98,12 @@ class PromodisersComponent extends Component
             $promodiser->save();
 
             DB::commit();
-            
-            session()->flash('flash.banner','New Promo merchandiser has been added successfully');
-            session()->flash('flash.bannerStyle', 'success');
+
+            $this->notification([
+                'icon'          => 'success',
+                'title'         => 'Promodiser added!',
+                'description'   => '<strong>'. $promodiser->Firstname . '</strong> has been added successfully.'
+            ]);
 
             $this->reset();
             $this->resetValidation();
@@ -156,8 +160,11 @@ class PromodisersComponent extends Component
 
             $this->showPromodiserEdit = false;
 
-            session()->flash('flash.banner', 'Saved.');
-            session()->flash('flash.bannerStyle', 'success');
+            $this->notification([
+                'icon'          => 'success',
+                'title'         => 'Promodisers imported!',
+                'description'   => 'Promodisers were imported successfully.'
+            ]);
 
         } catch (\Exception $e) {
             dd($e->getMessage());

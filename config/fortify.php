@@ -133,7 +133,6 @@ return [
 
     'features' => [
         Features::registration(),
-        Features::promodisersAdd(),
         Features::resetPasswords(),
         // Features::emailVerification(),
         Features::updateProfileInformation(),

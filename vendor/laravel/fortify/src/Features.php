@@ -121,12 +121,6 @@ class Features
         return 'update-passwords';
     }
 
-    public static function promodisersAdd()
-    {
-        return 'promodisersAdd';
-    }
-
-
     /**
      * Enable the two factor authentication feature.
      *

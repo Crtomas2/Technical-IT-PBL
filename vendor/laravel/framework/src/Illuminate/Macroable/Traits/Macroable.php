@@ -114,7 +114,7 @@ trait Macroable
                 'Method %s::%s does not exist.', static::class, $method
             ));
         }
-   
+
         $macro = static::$macros[$method];
 
         if ($macro instanceof Closure) {
